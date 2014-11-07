@@ -12,7 +12,11 @@ public class HelloPersonnes {
 		Tab[2] = new Enseignant("Pierre", 54, 35);
 		for(int i = 0; i<2 ; ++i) {
 			System.out.println(Tab[i]);
+<<<<<<< .mine
+		System.out.println("test anthony21 ");
+=======
 		System.out.println("test pascal ");
+>>>>>>> .r16
 		}
 	}
 

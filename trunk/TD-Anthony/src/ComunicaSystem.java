@@ -3,6 +3,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 
+import Communication.* ; 
 
 public class ComunicaSystem {
 

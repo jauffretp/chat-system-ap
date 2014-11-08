@@ -22,9 +22,9 @@ public class Comunica extends JFrame implements ActionListener{
 	private JTextArea textToSend ;
 	private JScrollPane zoneScrolableSend ; 
 	private JScrollPane zoneScrolableRec ; 
-	
 
-	public Comunica( BufferedReader reader, BufferedWriter writer ) {
+
+	public Comunica( BufferedReader reader, BufferedWriter writer ) throws IOException {
 		super("Communication Window");	
 		this.writer = writer ;
 		this.reader = reader ; 
@@ -33,7 +33,7 @@ public class Comunica extends JFrame implements ActionListener{
 		this.setLocationRelativeTo(null); // et la met au milieu
 	}
 
-	
+
 	/** Initializes the Fenetre components */
 	private void initComponents() {
 		// create the components
@@ -46,9 +46,10 @@ public class Comunica extends JFrame implements ActionListener{
 		textToSend = new JTextArea(50,50) ;
 		zoneScrolableSend=new JScrollPane(textToSend);		
 		//
-		textRec = new JTextArea(50,50) ;		
+		textRec = new JTextArea(50,50) ;
+		textRec.setEditable(false) ; 
 		zoneScrolableRec=new JScrollPane(textRec);
-		
+
 
 		// buttons : creation and association with ActionListener
 		bReceive = new JButton("Receive");
@@ -67,6 +68,8 @@ public class Comunica extends JFrame implements ActionListener{
 		this.getContentPane().add(lmessrec);
 		this.getContentPane().add(zoneScrolableRec);
 
+		addActionforEnterKeyReleased() ; 
+		
 		// packs the fenetre: size is calculated
 		// regarding the added components
 		this.pack();
@@ -77,16 +80,44 @@ public class Comunica extends JFrame implements ActionListener{
 		// when we click on the close button, the system exits
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		if (e.getActionCommand() == bReceive.getActionCommand() || e.getActionCommand() == bSend.getActionCommand() ){
-			textRec.setText(textToSend.getText());
-		}		
-		
+	/** Add an action when the key "Enter" is relased  */
+	public void addActionforEnterKeyReleased() {
+		textToSend.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				int key=e.getKeyCode();
+				if(key==KeyEvent.VK_ENTER) {
+					bSend.doClick(); 
+				}
+			}
+		});
 	}
 	
+	
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e){
 
+		if (e.getSource() == bReceive){ // appuie sur bouton "Receive"
+			try {
+				textRec.setText(reader.readLine());
+			} catch (IOException exception) {
+				System.err.println("Erreur lecture ! "); 
+				exception.printStackTrace(); 
+			}
+		}
+		
+		else if (e.getSource() == bSend){ // appuie sur bouton "Send"
+			try {
+				writer.write(textToSend.getText());
+				writer.flush() ;
+				textToSend.setText("");
+			} 
+			catch (Exception exception){
+				System.err.println("Erreur ecriture ! "); 
+				exception.printStackTrace(); 				
+			}
+		}
+	}
 }

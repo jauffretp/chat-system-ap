@@ -1,13 +1,34 @@
 package communication;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.net.*;
+import java.io.*;
 
-public class ComunicaTCPServer extends Comunica {
+public class ComunicaTCPServer {
 
-	public ComunicaTCPServer(BufferedReader reader, BufferedWriter writer) throws IOException {
-		super(reader, writer);
+	final static int port = 9632;
+	private ServerSocket socketServeur ; 
+	private BufferedReader bfin ; 
+	private BufferedWriter bfout ;
+	private Comunica fenetreCom ; 
+
+	public ComunicaTCPServer() {
+		try {
+			socketServeur = new ServerSocket(port);
+			System.out.println("Lancement du serveur");
+
+			while (true) {
+				Socket socketClient = socketServeur.accept();
+				String message = "";
+
+				System.out.println("Connexion avec : "+socketClient.getInetAddress());
+
+				bfin = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
+				bfout = new BufferedWriter(new BufferedWriter( new OutputStreamWriter(socketClient.getOutputStream())));
+							
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
-
 }

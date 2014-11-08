@@ -71,7 +71,7 @@ public class Comunica extends JFrame implements ActionListener{
 		this.getContentPane().add(zoneScrolableRec);
 
 		addActionforEnterKeyReleased() ; 
-		
+
 		// packs the fenetre: size is calculated
 		// regarding the added components
 		this.pack();
@@ -94,10 +94,10 @@ public class Comunica extends JFrame implements ActionListener{
 			}
 		});
 	}
-	
-	
-	
-	
+
+
+
+
 	@Override
 	public void actionPerformed(ActionEvent e){
 
@@ -109,11 +109,14 @@ public class Comunica extends JFrame implements ActionListener{
 				exception.printStackTrace(); 
 			}
 		}
-		
+
 		else if (e.getSource() == bSend){ // appuie sur bouton "Send"
 			try {
+				System.out.println("avant") ; 
 				writer.write(textToSend.getText());
+				System.out.println("milieu") ; 
 				writer.flush() ;
+				System.out.println("apres") ; 
 				textToSend.setText("");
 			} 
 			catch (Exception exception){
@@ -122,4 +125,17 @@ public class Comunica extends JFrame implements ActionListener{
 			}
 		}
 	}
+
+	public void setReader(BufferedReader reader) {
+		this.reader = reader;
+	}
+
+
+	public void setWriter(BufferedWriter writer) {
+		this.writer = writer;
+	}
+	
+	
 }
+
+

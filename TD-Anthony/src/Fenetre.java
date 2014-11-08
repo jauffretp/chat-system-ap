@@ -29,7 +29,7 @@ import javax.swing.*;
  @Override
  public void actionPerformed(ActionEvent E){
 	 this.remove(label2);
-	 label2 = new JLabel("Hello "+text.getText());
+	 label2 = new JLabel("Coucou "+text.getText());
 	 this.add("South",label2);
 	 this.pack();
  }

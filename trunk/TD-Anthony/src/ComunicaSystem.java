@@ -20,8 +20,7 @@ public class ComunicaSystem {
 			b2aWriter = new FileWriter("B2A.txt");
 			
 			Comunica fenetre1 = new Comunica (new BufferedReader(a2bReader), new BufferedWriter(b2aWriter));
-			Comunica fenetre2 = new Comunica (new BufferedReader(b2aReader), new BufferedWriter(a2bWriter));
-				
+			Comunica fenetre2 = new Comunica (new BufferedReader(b2aReader), new BufferedWriter(a2bWriter));				
 		}
 		catch(Exception e) {
 			System.err.println("Le système a recontré une erreur : " )  ;

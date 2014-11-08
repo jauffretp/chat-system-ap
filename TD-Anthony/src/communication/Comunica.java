@@ -102,21 +102,19 @@ public class Comunica extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 
 		if (e.getSource() == bReceive){ // appuie sur bouton "Receive"
-			try {
-				textRec.setText(reader.readLine());
-			} catch (IOException exception) {
-				System.err.println("Erreur lecture ! "); 
-				exception.printStackTrace(); 
-			}
+			String tmp = "tt" ; 
+			int t ; 
+			System.err.println("here "); 
+//				do {t = reader.read() ; tmp = tmp + (char)t; }
+//				while (t!=10) ;
+			
+			textRec.setText(tmp) ;
 		}
 
 		else if (e.getSource() == bSend){ // appuie sur bouton "Send"
 			try {
-				System.out.println("avant") ; 
-				writer.write(textToSend.getText());
-				System.out.println("milieu") ; 
+				writer.write(textToSend.getText()); 
 				writer.flush() ;
-				System.out.println("apres") ; 
 				textToSend.setText("");
 			} 
 			catch (Exception exception){

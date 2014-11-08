@@ -17,7 +17,8 @@ public class ComunicaTCPClient{
 	public ComunicaTCPClient(Comunica fenetreCom, String adresse)throws IOException {
 		try {
 			socketClient = new Socket(InetAddress.getByName(adresse), port);
-			System.out.println("Connexion avec : "+socketClient.getInetAddress());
+						
+			System.out.println("Le client s'est connecté avec : "+socketClient.getInetAddress());
  
 			bfin  =  new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
 			bfout =  new BufferedWriter(new BufferedWriter( new OutputStreamWriter(socketClient.getOutputStream())));

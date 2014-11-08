@@ -3,7 +3,7 @@ package communication;
 import java.net.*;
 import java.io.*;
 
-public class ComunicaTCPServer {
+public class ComunicaTCPServer extends Thread {
 
 	final static int port = 9632;
 	private ServerSocket socketServeur ; 
@@ -15,20 +15,24 @@ public class ComunicaTCPServer {
 		try {
 			socketServeur = new ServerSocket(port);
 			System.out.println("Lancement du serveur");
-
-			while (true) {
-				Socket socketClient = socketServeur.accept();
-				String message = "";
-
-				System.out.println("Connexion avec : "+socketClient.getInetAddress());
-
-				bfin = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
-				bfout = new BufferedWriter(new BufferedWriter( new OutputStreamWriter(socketClient.getOutputStream())));
-							
-			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void run() {
+		while (true) {
+		String message = "";
+		Socket socketClient = null ;
+		try {
+			socketClient = socketServeur.accept();
+			System.out.println("Connexion acceptée par le serveur avec : "+socketClient.getInetAddress());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}			
 	}
 }

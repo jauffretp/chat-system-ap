@@ -1,4 +1,4 @@
-package Communication ; 
+package communication ; 
 
 import java.awt.* ; 
 import java.awt.event.* ;

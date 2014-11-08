@@ -40,7 +40,7 @@ import javax.swing.*;
  private void initComponents() {
  // create the components
  // a new label with the "Nom" as value
- label1 = new JLabel("Nom: ");
+ label1 = new JLabel("Please provide a name : ");
  label2= new JLabel();
  // a new text field with 20 columns
  text = new JTextField(20);

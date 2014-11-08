@@ -5,7 +5,9 @@
  */
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.* ;
+
 import javax.swing.*;
 
 
@@ -70,7 +72,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		button.addActionListener(this);
 
 		// configures the JFrame layout using a border layout
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout(3,2));
 		
 		// places the components in the layout
 		this.add("West",label1);
@@ -82,6 +84,7 @@ public class Fenetre extends JFrame implements ActionListener{
 		this.pack();
 		
 		// the JFrame is visible now
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 
 		// when we click on the close button, the system exits

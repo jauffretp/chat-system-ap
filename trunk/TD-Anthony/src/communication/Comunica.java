@@ -83,7 +83,7 @@ public class Comunica extends JFrame implements ActionListener{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	/** Add an action when the key "Enter" is relased  */
+	/** Add an action when the key "Enter" is released  */
 	public void addActionforEnterKeyReleased() {
 		textToSend.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {

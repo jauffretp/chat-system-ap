@@ -1,0 +1,115 @@
+
+/**
+ * Example of a Fenetre (JFrame) using awt and swing
+ * @author Anthony
+ */
+
+ import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import javax.swing.*;
+
+ public class Fenetre extends JFrame implements ActionListener, WindowListener {
+
+ /** a label for the name */
+ private JLabel label1;
+ private JLabel label2;
+ /** a textfield for the name */
+ private JTextField text;
+ /** a button to perform an action: e.g. say hello (TBD) */
+ private JButton button;
+ 
+
+ /** Creates a Fenetre */
+ public Fenetre(String name) {
+	 super(name) ; 
+	 initComponents();
+ }
+ 
+ @Override
+ public void actionPerformed(ActionEvent E){
+	 this.remove(label2);
+	 label2 = new JLabel("Hello "+text.getText());
+	 this.add("South",label2);
+	 this.pack();
+ }
+
+
+ /** Initializes the Fenetre components */
+
+ private void initComponents() {
+ // create the components
+ // a new label with the "Nom" as value
+ label1 = new JLabel("Please provide a name : ");
+ label2= new JLabel();
+ // a new text field with 20 columns
+ text = new JTextField(20);
+ // a new button identified as OK
+ button = new JButton("OK");
+ button.addActionListener(this);
+ 
+ // configures the JFrame layout using a border layout
+ this.setLayout(new BorderLayout());
+ // places the components in the layout
+ this.add("West",label1);
+ this.add("Center",text);
+ this.add("East",button);
+ // packs the fenetre: size is calculated
+ // regarding the added components
+ this.addWindowListener(this); 
+ this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ this.pack();
+ // the JFrame is visible now
+ this.setVisible(true);
+ }
+
+ /** main entry point */
+ public static void main(String[] args) {
+    Fenetre f = new Fenetre("Chat System v0.1");
+  }
+
+@Override
+public void windowActivated(WindowEvent arg0) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void windowClosed(WindowEvent arg0) {
+	System.out.println("Closed"); 
+	
+}
+
+@Override
+public void windowClosing(WindowEvent arg0) {
+	System.out.println("Closing"); 
+	
+}
+
+@Override
+public void windowDeactivated(WindowEvent arg0) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void windowDeiconified(WindowEvent arg0) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void windowIconified(WindowEvent arg0) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void windowOpened(WindowEvent arg0) {
+	System.out.println("Fenetre ouverte") ; 
+	
+}
+}

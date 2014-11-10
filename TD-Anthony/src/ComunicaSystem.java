@@ -23,7 +23,7 @@ public class ComunicaSystem {
 		}
                 
 		catch(Exception e) {
-			System.err.println("Erreur in the main funtion ! " )  ;
+			System.err.println("An error has occurred in the main function" )  ;
 			e.printStackTrace();
 		}
 

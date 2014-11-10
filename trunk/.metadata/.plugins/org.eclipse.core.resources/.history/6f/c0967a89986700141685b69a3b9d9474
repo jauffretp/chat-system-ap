@@ -1,0 +1,37 @@
+package communication;
+
+import java.net.*;
+import java.io.*;
+
+public class ComunicaTCPServer {
+
+	final static int port = 9632;
+	private ServerSocket socketServeur ; 
+	private BufferedReader bfin ; 
+	private BufferedWriter bfout ;
+	private Comunica fenetreCom ; 
+
+	public ComunicaTCPServer(Comunica fenetreCom) {
+		try {
+			socketServeur = new ServerSocket(port);
+			System.out.println("Lancement du serveur");
+
+			while (true) {
+				Socket socketClient = socketServeur.accept();
+				String message = "";
+
+				System.out.println("Connexion avec : "+socketClient.getInetAddress());
+
+				bfin = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
+				bfout = new BufferedWriter(new BufferedWriter( new OutputStreamWriter(socketClient.getOutputStream())));
+			
+				this.fenetreCom.setReader(bfin) ; 
+				this.fenetreCom.setWriter(bfout) ; 
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+}

@@ -1,0 +1,28 @@
+package communication;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.net.*;
+import java.io.*;
+
+
+public class ComunicaTCPServer{
+
+	final static int port = 9632;
+
+	public ComunicaTCPServer() throws IOException {	
+
+		try {
+			ServerSocket socketServeur = new ServerSocket(port);
+			System.out.println("Lancement du serveur");
+
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+

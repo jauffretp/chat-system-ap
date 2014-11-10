@@ -1,0 +1,131 @@
+
+/**
+ * Example of a Fenetre (JFrame) using awt and swing
+ * @author Anthony
+ */
+
+ import java.awt.BorderLayout;
+import java.awt.event.* ; 
+
+import javax.swing.*;
+
+ public class Fenetre extends JFrame implements ActionListener{
+
+ /** a label for the name */
+ private JLabel label1;
+ private JLabel label2;
+ /** a textfield for the name */
+ private JTextField text;
+ /** a button to perform an action: e.g. say hello (TBD) */
+ private JButton button;
+ 
+
+ /** Creates a Fenetre */
+ public Fenetre(String name) {
+	 super(name) ; 
+	 initComponents();
+ }
+ 
+ @Override
+ public void actionPerformed(ActionEvent e){
+	 String actionCommand = e.getActionCommand();
+	 this.remove(label2);
+	 
+	    if(actionCommand.equals("clic ok"))
+	    {
+	    	label2 = new JLabel("Hello "+text.getText()); 
+	    }
+	    else if(actionCommand.equals("key pressed"))
+	    {
+	    	label2 = new JLabel("Bonjour "+text.getText()); 
+	    }
+	    
+	 
+	 
+	 this.add("South",label2);
+	 this.pack();
+ }
+
+ public void keyReleased(KeyEvent e)
+ {
+     int key=e.getKeyCode();
+     if(e.getSource()==text)
+     {
+         if(key==KeyEvent.VK_ENTER)
+         { 
+        	 this.remove(label2);
+        	 label2 = new JLabel("Bonjour11 "+text.getText()); 
+        	 this.add("South",label2);
+        	 this.pack();
+         }
+     }
+ }
+ 
+ /** Initializes the Fenetre components */
+
+ private void initComponents() {
+ // create the components
+ // a new label with the "Nom" as value
+ label1 = new JLabel("Please provide a name : ");
+ label2= new JLabel();
+ // a new text field with 20 columns
+ text = new JTextField(20);
+ // a new button identified as OK
+ button = new JButton("OK");
+ button.addActionListener(this);
+ 
+ // configures the JFrame layout using a border layout
+ this.setLayout(new BorderLayout());
+ // places the components in the layout
+ this.add("West",label1);
+ this.add("Center",text);
+ this.add("East",button);
+ // packs the fenetre: size is calculated
+ // regarding the added components
+ this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ this.pack();
+ // the JFrame is visible now
+ this.setVisible(true);
+ 
+ button.setActionCommand("clic ok");
+ text.addKeyListener(new KeyAdapter() {
+     public void keyReleased(KeyEvent e) {
+    	 int key=e.getKeyCode();
+         if(key==KeyEvent.VK_ENTER) {
+    	 remove(label2);
+    	 label2 = new JLabel("Bonjour12 "+text.getText()); 
+    	 add("South",label2);
+    	 pack(); } 
+    	 
+    	 JTextField textField = (JTextField) e.getSource();
+         String text = textField.getText();
+         textField.setText(text.toUpperCase());
+     }
+
+     public void keyTyped(KeyEvent e) {
+    	 
+    	 int key=e.getKeyCode();
+         if(key==KeyEvent.VK_ENTER) {
+    	 remove(label2);
+    	 label2 = new JLabel("Bonjour12 "+text.getText()); 
+    	 add("South",label2);
+    	 pack(); } 
+     }
+
+     public void keyPressed(KeyEvent e) {
+         // TODO: Do something for the keyPressed event
+     }
+ });
+ 
+ }
+
+ 
+ 
+ 
+ 
+ /** main entry point */
+ public static void main(String[] args) {
+    Fenetre f = new Fenetre("Chat System v0.1");
+  }
+
+}

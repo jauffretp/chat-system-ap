@@ -14,20 +14,19 @@ public class ComunicaTCPClient{
 	private BufferedWriter bfout ;
 	private Comunica fenetreCom ; 
 	
-	public ComunicaTCPClient(Comunica fenetreCom, String adresse)throws IOException {
+	public ComunicaTCPClient(String adresse)throws IOException {
 		try {
 			socketClient = new Socket(InetAddress.getByName(adresse), port);
 						
-			System.out.println("Le client s'est connecté avec : "+socketClient.getInetAddress());
+			System.out.println("Client connected with : "+socketClient.getInetAddress());
  
 			bfin  =  new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
-			bfout =  new BufferedWriter(new BufferedWriter( new OutputStreamWriter(socketClient.getOutputStream())));
-	        
-			this.fenetreCom = fenetreCom ; 
-			this.fenetreCom.setReader(bfin) ; 
-			this.fenetreCom.setWriter(bfout) ; 
-			
-		} catch (Exception e) {
+			bfout =  new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
+                        
+                         Comunica fenetre = new Comunica(bfin,bfout) ; 			
+		} 
+                
+                catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

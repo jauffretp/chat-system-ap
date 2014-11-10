@@ -7,17 +7,19 @@ public class ComunicaTCPServer extends Thread {
 
 	final static int port = 9632;
 	private ServerSocket socketServeur ; 
+	private Comunica fenetreCom ; 
+         
 	private BufferedReader bfin ; 
 	private BufferedWriter bfout ;
-	private Comunica fenetreCom ; 
 
 	public ComunicaTCPServer() {
 		try {
 			socketServeur = new ServerSocket(port);
-			System.out.println("Lancement du serveur");
+			System.out.println("Server is launched");
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+                    System.err.println("Fail launching server");
+                    e.printStackTrace();
 		}
 
 	}
@@ -28,8 +30,14 @@ public class ComunicaTCPServer extends Thread {
 		Socket socketClient = null ;
 		try {
 			socketClient = socketServeur.accept();
-			System.out.println("Connexion acceptée par le serveur avec : "+socketClient.getInetAddress());
-		} catch (IOException e) {
+			System.out.println("Connexion accepted by the server with : "+socketClient.getInetAddress());
+                        
+                        bfin  =  new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
+			bfout =  new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
+	        
+                        Comunica fenetre = new Comunica(bfin,bfout) ;                 
+                        
+               } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

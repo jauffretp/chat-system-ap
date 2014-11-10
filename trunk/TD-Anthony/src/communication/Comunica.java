@@ -3,6 +3,8 @@ package communication ;
 import java.awt.* ; 
 import java.awt.event.* ;
 import java.io.*  ; 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.* ; 
 
@@ -31,8 +33,8 @@ public class Comunica extends JFrame implements ActionListener{
 		this.writer = writer ;
 		this.reader = reader ; 
 		initComponents() ;			
-		this.setSize(500, 200); // redimensionne bien la fenêtre
-		this.setLocationRelativeTo(null); // et la met au milieu
+		this.setSize(500, 200); // resize the windows
+		this.setLocationRelativeTo(null); // put the windows in the middle of the screen 
 	}
 
 
@@ -101,23 +103,23 @@ public class Comunica extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e){
 
-		if (e.getSource() == bReceive){ // appuie sur bouton "Receive"
-			String tmp = "tt" ; 
-			int t ; 
-			System.err.println("here "); 
-//				do {t = reader.read() ; tmp = tmp + (char)t; }
-//				while (t!=10) ;
-			
-			textRec.setText(tmp) ;
+		if (e.getSource() == bReceive){ 
+                    try {
+                        // appuie sur bouton "Receive"			
+                    textRec.setText(reader.readLine()) ;
+                    } catch (IOException exception) {
+                        exception.printStackTrace(); 
+                    }
 		}
 
 		else if (e.getSource() == bSend){ // appuie sur bouton "Send"
 			try {
 				writer.write(textToSend.getText()); 
+                                writer.newLine(); 
 				writer.flush() ;
 				textToSend.setText("");
 			} 
-			catch (Exception exception){
+			catch (IOException exception){
 				System.err.println("Erreur ecriture ! "); 
 				exception.printStackTrace(); 				
 			}
@@ -133,7 +135,14 @@ public class Comunica extends JFrame implements ActionListener{
 		this.writer = writer;
 	}
 	
-	
+	public BufferedReader getReader() {
+		return reader;
+	}
+
+
+	public BufferedWriter getWriter() {
+		return writer;
+	}
 }
 
 

@@ -26,7 +26,7 @@ public class ComunicaTCPServer extends Thread {
     } catch (Exception e) {
       JOptionPane errorServerJDialog = new JOptionPane();
       errorServerJDialog.showMessageDialog(null, "Impossible to launch the server : the port is already in use. \n"
-                    + "The application is going to close.", "Server : Error", JOptionPane.ERROR_MESSAGE);        
+                    + "The application is going to close.", "TCPServer : Error", JOptionPane.ERROR_MESSAGE);        
         
     }
   }

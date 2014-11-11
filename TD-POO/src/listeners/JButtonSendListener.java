@@ -31,7 +31,7 @@ public class JButtonSendListener implements ActionListener {
         } catch (IOException exception) {
             JOptionPane errorJDialog = new JOptionPane();
             errorJDialog.showMessageDialog(null, "Impossible to send : the destination seems disconnected."
-                    , "Receive : Error", JOptionPane.ERROR_MESSAGE);        
+                    , "Send : Error", JOptionPane.ERROR_MESSAGE);        
         }
     }
 }

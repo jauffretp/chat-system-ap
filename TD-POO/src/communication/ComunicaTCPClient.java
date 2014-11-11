@@ -2,20 +2,25 @@ package communication;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.net.*;
 import java.io.*;
+import javax.swing.JOptionPane;
 
 public class ComunicaTCPClient {
 
-    private final static int port = 9632;
+    private final static int port = 9633;
     private Socket socketClient;
     private BufferedReader bfin;
     private BufferedWriter bfout;
-    private Comunica fenetreCom;
+    private Comunica Com;
     private ListenSocket ls;
 
-    public ComunicaTCPClient(String adresse) throws IOException {
+    public static void main(String[] args) {        
+            ComunicaTCPClient client = new ComunicaTCPClient("localhost");        
+    }
+    
+    
+    public ComunicaTCPClient(String adresse)  {
         try {
             socketClient = new Socket(InetAddress.getByName(adresse), port);
 
@@ -25,10 +30,11 @@ public class ComunicaTCPClient {
             bfout = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
 
             ls = new ListenSocket(bfin);
-            Comunica fenetre = new Comunica(ls, bfout);
+            Comunica fenetre = new Comunica(ls, bfout); 
         } 
         catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane errorServerJDialog = new JOptionPane();
+            errorServerJDialog.showMessageDialog(null, "Please start the server first", "TCPClient : Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

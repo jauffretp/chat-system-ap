@@ -3,8 +3,6 @@ package communication;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.*;
 
@@ -30,7 +28,7 @@ public class Comunica extends JFrame implements WindowListener {
     private JScrollPane zoneScrolableRec;
     private String messageReceived;
 
-    public Comunica(ListenSocket ls, BufferedWriter writer) throws IOException {
+    public Comunica(ListenSocket ls, BufferedWriter writer){
         super("Communication Window");
         this.writer = writer;
         this.ls = ls;
@@ -59,9 +57,9 @@ public class Comunica extends JFrame implements WindowListener {
 
         // buttons : creation and association with ActionListener
         bReceive = new JButton("Receive");
-        bReceive.addActionListener(new JButtonSendListener(ls, textRec, messageReceived));
+        bReceive.addActionListener(new JButtonReceiveListener(ls, textRec));
         bSend = new JButton("Send");
-        bSend.addActionListener(new JButtonReceiveListener(writer, textToSend));
+        bSend.addActionListener(new JButtonSendListener(writer, textToSend));
 
         // configures the JFrame layout using a border layout
         this.setLayout(new GridLayout(3, 2));
@@ -85,6 +83,9 @@ public class Comunica extends JFrame implements WindowListener {
         this.setVisible(true);
     }
 
+    
+    
+    
     /**
      * Add an action when the key "Enter" is released
      */

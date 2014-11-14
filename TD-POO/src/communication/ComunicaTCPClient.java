@@ -1,5 +1,7 @@
 package communication;
 
+import listeners.ListenSocket;
+import windows.Comunica;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.net.*;
@@ -15,12 +17,12 @@ public class ComunicaTCPClient {
     private Comunica Com;
     private ListenSocket ls;
 
-    public static void main(String[] args) {        
-            ComunicaTCPClient client = new ComunicaTCPClient("localhost");        
+    public static void main(String[] args) {
+        ComunicaTCPClient client = new ComunicaTCPClient("localhost");
+        client.launch();
     }
-    
-    
-    public ComunicaTCPClient(String adresse)  {
+
+    public ComunicaTCPClient(String adresse) {
         try {
             socketClient = new Socket(InetAddress.getByName(adresse), port);
 
@@ -28,13 +30,15 @@ public class ComunicaTCPClient {
 
             bfin = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
             bfout = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
-
-            ls = new ListenSocket(bfin);
-            Comunica fenetre = new Comunica(ls, bfout); 
-        } 
-        catch (Exception e) {
-            JOptionPane errorServerJDialog = new JOptionPane();
-            errorServerJDialog.showMessageDialog(null, "Please start the server first", "TCPClient : Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Please start the server first", "TCPClient : Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(-1) ; 
         }
+    }
+
+    public void launch() {
+        ls = new ListenSocket(bfin);
+        ls.start();
+        Comunica fenetre = new Comunica("Client", ls, bfout, socketClient);
     }
 }

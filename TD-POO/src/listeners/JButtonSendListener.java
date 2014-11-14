@@ -13,8 +13,8 @@ import javax.swing.JTextArea;
  */
 public class JButtonSendListener implements ActionListener {
 
-    private BufferedWriter writer;
-    private JTextArea textToSend;
+    private final BufferedWriter writer;
+    private final JTextArea textToSend;
 
     public JButtonSendListener(BufferedWriter writer, JTextArea textToSend) {
         this.writer = writer;
@@ -29,9 +29,7 @@ public class JButtonSendListener implements ActionListener {
             writer.flush();
             textToSend.setText("");
         } catch (IOException exception) {
-            JOptionPane errorJDialog = new JOptionPane();
-            errorJDialog.showMessageDialog(null, "Impossible to send : the destination seems disconnected."
-                    , "Send : Error", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "Impossible to send : the destination seems disconnected.", "Send : Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

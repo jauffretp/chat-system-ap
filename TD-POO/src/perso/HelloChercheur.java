@@ -1,5 +1,7 @@
+package perso;
+
+import perso.product.Publication;
 import perso.*;
-import product.*;
 public class HelloChercheur {
 
 	

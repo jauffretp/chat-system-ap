@@ -1,3 +1,5 @@
+package perso;
+
 import perso.*;
 
 
@@ -5,7 +7,7 @@ public class HelloPersonnes {
 
 	public static void main (String[] args){
 		Personne p = new Personne("Dupont",20);
-		Etudiant stud = new Etudiant("Grévin",21,15.0f);
+		Etudiant stud = new Etudiant("Grï¿½vin",21,15.0f);
 		Enseignant teach = new Enseignant("Lolo",200,35);
 		
 		System.out.println(p);

@@ -1,3 +1,5 @@
+package perso;
+
 
 /**
  * Example of a Fenetre (JFrame) using awt and swing

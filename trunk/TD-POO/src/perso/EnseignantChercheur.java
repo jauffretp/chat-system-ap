@@ -3,7 +3,7 @@ package perso;
 
 import java.util.ArrayList;
 
-import product.Publication;
+import perso.product.Publication;
 
 public class EnseignantChercheur extends Enseignant implements IChercheur {
 
@@ -18,7 +18,7 @@ public class EnseignantChercheur extends Enseignant implements IChercheur {
 			publications.add(p);
 			
 		}else{
-			System.out.println("Il y a déjà 10 Publications");
+			System.out.println("Il y a dï¿½jï¿½ 10 Publications");
 		}
 
 	}

@@ -72,8 +72,8 @@ public class NI implements CtrlToNI {
     }
 
     @Override
-    public void sendMessage(String message, String remote_username, int messageNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void sendMessage(String username, String ip, String message, String messageNumber) {
+        System.out.println("NI : Ready to send \"" + message + "\" to " + username + " @" + ip);
     }
 
     @Override

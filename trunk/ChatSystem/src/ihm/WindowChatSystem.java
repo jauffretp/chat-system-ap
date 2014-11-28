@@ -43,6 +43,11 @@ public class WindowChatSystem extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jListUserList);
 
         jButtonSend.setText("Send");
+        jButtonSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSendActionPerformed(evt);
+            }
+        });
 
         zoneLog.setEditable(false);
         zoneLog.setColumns(20);
@@ -85,6 +90,11 @@ public class WindowChatSystem extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed
+        gui.sendButtonPushed(jListUserList.getSelectedValues(), jTextFieldMessage.getText());
+        jTextFieldMessage.setText("");
+    }//GEN-LAST:event_jButtonSendActionPerformed
 
  
     // Variables declaration - do not modify//GEN-BEGIN:variables

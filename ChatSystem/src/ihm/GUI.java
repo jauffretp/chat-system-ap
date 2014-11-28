@@ -15,34 +15,19 @@ public class GUI implements CtrlToGUI {
     public GUI(Controller controller) {
         this.controller = controller;
         this.listUsers = UserList.getInstance();
-        windowChat = new WindowChatSystem(this) ;
-        windowChat.setjListUserList(listUsers.getJlist());
+        windowChat = new WindowChatSystem(this, controller) ;
         this.connectWindow = new ConnectWindow(this) ;
         this.connectWindow.setVisible(true);
     }
 
     // receiving side 
-    public void addUser(String username, String ip) {
-        listUsers.addUserToList(username, ip); 
-        if (windowChat == null) System.out.println("null");
-        windowChat.majList(listUsers.toString());
-        System.out.println("ho");
-    }
-
+    
     @Override
-    public void deleteUser(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setTextLog(String text) {
+        System.out.println("GUI : setTextLog");
+        windowChat.setLog(text) ;  
     }
-
-    @Override
-    public void informMessage(Message message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void informFileReceived(File file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 
     // sending side 
     public void ConnectButtonPushed(String nickname) {

@@ -1,6 +1,9 @@
 package ihm;
 
+import controller.Controller;
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import model.User;
 
 /**
  *
@@ -8,12 +11,13 @@ import javax.swing.JList;
  */
 public class WindowChatSystem extends javax.swing.JFrame {
 
-   
     private GUI gui ; 
+    private Controller ctrl ; 
     
     
-    public WindowChatSystem(GUI gui) {
+    public WindowChatSystem(GUI gui, Controller ctrl ) {
         this.gui = gui ;
+        this.ctrl = ctrl ; 
         initComponents();
     }
 
@@ -35,18 +39,14 @@ public class WindowChatSystem extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jListUserList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        jListUserList.setModel(ctrl.getListModel());
         jScrollPane1.setViewportView(jListUserList);
 
         jButtonSend.setText("Send");
 
+        zoneLog.setEditable(false);
         zoneLog.setColumns(20);
         zoneLog.setRows(5);
-        zoneLog.setText("History log : ");
         jScrollPaneLog.setViewportView(zoneLog);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -86,18 +86,7 @@ public class WindowChatSystem extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-  
-    public void majList(String listToString){ 
-        zoneLog.setText(listToString);
-    }
-
-    public void setjListUserList(JList jListUserList) {
-        this.jListUserList = jListUserList;
-    }
-    
-    
-    
-    
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonSend;
     private javax.swing.JList jListUserList;
@@ -106,4 +95,10 @@ public class WindowChatSystem extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldMessage;
     private javax.swing.JTextArea zoneLog;
     // End of variables declaration//GEN-END:variables
+
+    void setLog(String text) {
+        System.out.println("WindowChatSys : Ready to write");
+        zoneLog.setText(zoneLog.getText() + '\n' + text);
+        System.out.println("WindowChatSys : done");
+    }
 }

@@ -29,6 +29,18 @@ public class Controller {
      public DefaultListModel getListModel() {
         return listModel;
     }
+     
+    public String getUsername(String ip){
+        String username = "" ; 
+        for (int index = 0 ; index < listModel.size() ; index++)
+        {   
+            Object user = listModel.get(index);
+            if( ((User) user).getIp().equals(ip)){
+                username = ((User) user).getNickname() ; 
+            }
+        }
+       return username ; 
+    } 
     
     ///////////////////////////////////     
 
@@ -77,8 +89,9 @@ public class Controller {
         }
     }
     
-    public void processMessageReceived(String username, String dataMessage){
-        System.out.println("UDPReceiver : " + nickname);
+    public void processMessageReceived(String ip, String dataMessage){        
+        String username = getUsername(ip) ; 
+        System.out.println("UDPReceiver : " + username);
         gui.setTextLog(username + " : " + dataMessage);
     }
     

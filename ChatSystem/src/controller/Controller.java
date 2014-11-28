@@ -114,6 +114,7 @@ public class Controller {
     public void processGoodbyeReceived(String ip) {
         User userDisconnected = getUser(ip); 
         listModel.removeElement(userDisconnected);
+        gui.setTextLog(userDisconnected + " is now disconnected from the Chatsystem !");
         
     }
         

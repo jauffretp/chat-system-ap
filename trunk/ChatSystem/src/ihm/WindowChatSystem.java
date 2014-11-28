@@ -36,8 +36,12 @@ public class WindowChatSystem extends javax.swing.JFrame {
         jButtonSend = new javax.swing.JButton();
         jScrollPaneLog = new javax.swing.JScrollPane();
         zoneLog = new javax.swing.JTextArea();
+        jButtonQuit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("ChatSystem v 0.1");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setFocusCycleRoot(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -59,11 +63,18 @@ public class WindowChatSystem extends javax.swing.JFrame {
         zoneLog.setRows(5);
         jScrollPaneLog.setViewportView(zoneLog);
 
+        jButtonQuit.setText("Quit");
+        jButtonQuit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonQuitActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -73,7 +84,9 @@ public class WindowChatSystem extends javax.swing.JFrame {
                         .addGap(0, 24, Short.MAX_VALUE))
                     .addComponent(jScrollPaneLog))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonQuit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -90,7 +103,9 @@ public class WindowChatSystem extends javax.swing.JFrame {
                                 .addComponent(jButtonSend, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonQuit)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -105,8 +120,14 @@ public class WindowChatSystem extends javax.swing.JFrame {
         gui.actionDisconnect(); 
     }//GEN-LAST:event_formWindowClosing
 
+    private void jButtonQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitActionPerformed
+        gui.actionDisconnect();
+        System.exit(0);
+    }//GEN-LAST:event_jButtonQuitActionPerformed
+
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonQuit;
     private javax.swing.JButton jButtonSend;
     private javax.swing.JList jListUserList;
     private javax.swing.JScrollPane jScrollPane1;
@@ -120,4 +141,6 @@ public class WindowChatSystem extends javax.swing.JFrame {
         zoneLog.setText(zoneLog.getText() + '\n' + text);
         System.out.println("WindowChatSys : done");
     }
+    
+    
 }

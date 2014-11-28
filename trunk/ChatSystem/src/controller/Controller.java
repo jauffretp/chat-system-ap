@@ -2,6 +2,7 @@ package controller;
 
 import ihm.CtrlToGUI;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import model.User;
 import network.CtrlToNI;
 
@@ -42,6 +43,18 @@ public class Controller {
        return username ; 
     } 
     
+      public User getUser(String ip){
+        User userResult = null; 
+        for (int index = 0 ; index < listModel.size() ; index++)
+        {   
+            Object user = listModel.get(index);
+            if( ((User) user).getIp().equals(ip)){
+                userResult = ((User) user); 
+            }
+        }
+       return userResult;
+    } 
+    
     ///////////////////////////////////     
 
     
@@ -54,13 +67,21 @@ public class Controller {
         ni.sendHello(nickname); 
     }
 
-    public void performDisconnect(){}
+    public void performDisconnect(){
+    System.out.println("Controller : Send Goodbye (broadcast) , nickname = " + nickname);
+        ni.sendGoodbye();
+    }
     
     public void performMessage(String txtMessage, Object[] users){
-      System.out.println("Controller : Send Message to users selected");
+      if(users.length == 0) {
+          JOptionPane.showMessageDialog(null, "Please select an user" , "ChatSystem  : Sending", JOptionPane.INFORMATION_MESSAGE);
+      }
+      else {
+          System.out.println("Controller : Send Message to users selected");
+      }
       for (Object userObj : users){          
           User user = (User) userObj ; 
-          gui.setTextLog("you (to " + user.getNickname() + " )" + " : " + txtMessage);
+          gui.setTextLog("You (to " + user.getNickname() + ")" + " : " + txtMessage);
           ni.sendMessage(nickname, user.getIp(), txtMessage, "14");
       }        
     }
@@ -90,11 +111,19 @@ public class Controller {
         }
     }
     
+    public void processGoodbyeReceived(String ip) {
+        User userDisconnected = getUser(ip); 
+        listModel.removeElement(userDisconnected);
+        
+    }
+        
     public void processMessageReceived(String ip, String dataMessage){        
         String username = getUsername(ip) ; 
         System.out.println("UDPReceiver : " + username);
         gui.setTextLog(username + " : " + dataMessage);
     }
+
+    
     
     
     

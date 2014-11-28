@@ -38,5 +38,9 @@ public class GUI implements CtrlToGUI {
     public void sendButtonPushed(Object[] users, String txtMessage ) {        
         controller.performMessage(txtMessage, users);
     }
+
+    void actionDisconnect() {
+        controller.performDisconnect(); 
+    }
     
 }

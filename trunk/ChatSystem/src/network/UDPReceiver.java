@@ -57,7 +57,7 @@ class UDPReceiver extends Thread {
                     ni.processHelloAck(nickname, dp.getAddress().getHostAddress());
                 }
                 else if (type.equals("goodBye")) {
-                    ni.processGoodBye(nickname);  
+                    ni.processGoodBye(ip);  
                 }
                 else{
                     System.out.println("UDPReceiver : Error with the message (don't recognize type)");

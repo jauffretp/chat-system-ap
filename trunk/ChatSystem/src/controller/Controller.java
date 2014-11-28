@@ -48,7 +48,7 @@ public class Controller {
       System.out.println("Controller : Send Message to users selected");
       for (Object userObj : users){
           User user = (User) userObj ; 
-          ni.sendMessage(user.getNickname(), user.getIp(), txtMessage, "14");
+          ni.sendMessage(nickname, user.getIp(), txtMessage, "14");
       }        
     }
     
@@ -77,8 +77,9 @@ public class Controller {
         }
     }
     
-    public void processMessageReceived(String nickname, String dataMessage){
-        gui.setTextLog(nickname + " : " + dataMessage);
+    public void processMessageReceived(String username, String dataMessage){
+        System.out.println("UDPReceiver : " + nickname);
+        gui.setTextLog(username + " : " + dataMessage);
     }
     
     

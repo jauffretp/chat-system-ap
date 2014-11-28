@@ -75,7 +75,7 @@ public class NI implements CtrlToNI {
     public void sendMessage(String username, String ip, String txtMessage, String messageNumber) {
         System.out.println("NI : Ready to send \"" + txtMessage + "\" to " + username + " @" + ip);
         Message message = new Message();
-        message.initMessage("message", username, txtMessage, "1");
+        message.initMessage("message", username, txtMessage, messageNumber);
         System.out.println("Message sent : " + message.toString() ) ; 
         try {
             udpSender.sendMessage(InetAddress.getByName(ip), message);
@@ -119,6 +119,7 @@ public class NI implements CtrlToNI {
     
     @Override
     public void processMessage(String nickname, String dataMessage) {
+        System.out.println("NI : " + nickname);
         controller.processMessageReceived(nickname, dataMessage) ;
     }
 

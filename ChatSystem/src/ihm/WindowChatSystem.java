@@ -38,6 +38,11 @@ public class WindowChatSystem extends javax.swing.JFrame {
         zoneLog = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jListUserList.setModel(ctrl.getListModel());
         jScrollPane1.setViewportView(jListUserList);
@@ -95,6 +100,10 @@ public class WindowChatSystem extends javax.swing.JFrame {
         gui.sendButtonPushed(jListUserList.getSelectedValues(), jTextFieldMessage.getText());
         jTextFieldMessage.setText("");
     }//GEN-LAST:event_jButtonSendActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        gui.actionDisconnect(); 
+    }//GEN-LAST:event_formWindowClosing
 
  
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -64,11 +64,20 @@ public class NI implements CtrlToNI {
             udpSender.sendMessage(InetAddress.getByName(ip), message);
         } catch (UnknownHostException ex) {
             System.out.println("Error sending message : Unknown host");
-        }}
+        }
+    }
 
     @Override
     public void sendGoodbye() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Message message = new Message();
+        message.initMessage("goodBye", " ", " ", " ");
+        System.out.println("NI : goodBye " ) ; 
+        try {
+            udpSender.sendMessage(InetAddress.getByName("255.255.255.255"), message);
+        } catch (UnknownHostException ex) {
+            System.out.println("Error sending message : Unknown host");
+        }
+        
     }
 
     @Override
@@ -112,9 +121,9 @@ public class NI implements CtrlToNI {
     }
     
     @Override
-    public void processGoodBye(String nickname) {
-      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void processGoodBye(String ip) {
+       controller.processGoodbyeReceived(ip);
+      }
     
     
     @Override

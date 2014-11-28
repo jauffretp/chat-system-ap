@@ -36,19 +36,22 @@ class UDPReceiver extends Thread {
                 Message messageReceived = new Message();
                 messageReceived.initMessage(new JSONObject(new String(dp.getData(), "UTF-8")));
 
+                String ip = dp.getAddress().getHostAddress() ; 
+                
                 String messageData = (String) messageReceived.get("messageData");
                 String nickname = (String) messageReceived.get("userName");
                 String type = (String) messageReceived.get("type");
 
+                
                 if(type.equals("message")) {
-                     ni.processMessage(nickname, messageData);
-                     System.out.println("UDPReceiver : " + nickname);
+                    System.out.println("UDPReceiver : " + nickname);
+                    ni.processMessage(ip, messageData);                     
                 }
                 else if (type.equals("messageAck")) {
                     ni.processMessageAck(nickname);
                 }
                  else if (type.equals("hello")) {
-                    ni.processHello(nickname, dp.getAddress().getHostAddress());
+                    ni.processHello(nickname, ip);
                 }
                 else if (type.equals("helloAck")) {
                     ni.processHelloAck(nickname, dp.getAddress().getHostAddress());

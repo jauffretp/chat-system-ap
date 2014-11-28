@@ -118,9 +118,8 @@ public class NI implements CtrlToNI {
     
     
     @Override
-    public void processMessage(String nickname, String dataMessage) {
-        System.out.println("NI : " + nickname);
-        controller.processMessageReceived(nickname, dataMessage) ;
+    public void processMessage(String ip, String dataMessage) {
+        controller.processMessageReceived(ip, dataMessage) ;
     }
 
     @Override

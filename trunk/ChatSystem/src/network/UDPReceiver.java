@@ -41,7 +41,7 @@ class UDPReceiver extends Thread {
                 String type = (String) messageReceived.get("type");
 
                 if(type.equals("message")) {
-                     ni.processMessage(nickname, "");
+                     ni.processMessage(nickname, messageData);
                 }
                 else if (type.equals("messageAck")) {
                     ni.processMessageAck(nickname);

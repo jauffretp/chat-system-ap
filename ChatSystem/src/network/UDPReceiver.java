@@ -42,6 +42,7 @@ class UDPReceiver extends Thread {
 
                 if(type.equals("message")) {
                      ni.processMessage(nickname, messageData);
+                     System.out.println("UDPReceiver : " + nickname);
                 }
                 else if (type.equals("messageAck")) {
                     ni.processMessageAck(nickname);

@@ -12,16 +12,9 @@ public class Controller {
     private String nickname ; 
     private  DefaultListModel listModel ;
 
-    public DefaultListModel getListModel() {
-        return listModel;
-    }
-    
-    
     public Controller()  {  
         listModel = new DefaultListModel();
     }
-
-    public void performDisconnect(){}
 
     public void setNi(CtrlToNI ni) {
         this.ni = ni;
@@ -29,17 +22,28 @@ public class Controller {
 
     public void setGui(CtrlToGUI gui) {
         this.gui = gui;
+    }   
+    
+    /// Handling the model ///////////
+    
+     public DefaultListModel getListModel() {
+        return listModel;
     }
-        
     
-    // sending side 
+    ///////////////////////////////////     
+
     
+    // sending side    
+     
+     
     public void performConnect(String nickname){
         this.nickname = nickname ; 
         System.out.println("Controller : Send Hello (broadcast) , nickname = " + nickname);
         ni.sendHello(nickname); 
     }
 
+    public void performDisconnect(){}
+    
     public void performMessage(String txtMessage, Object[] users){
       System.out.println("Controller : Send Message to users selected");
       for (Object userObj : users){
@@ -49,9 +53,7 @@ public class Controller {
     }
     
     
-    // receiving side 
-    
-    
+    // receiving side    
     
     public void processHelloReceived(String username, String ip){
         System.out.println("Controller : HelloReceived from "+ username + "@" + ip);
@@ -75,7 +77,9 @@ public class Controller {
         }
     }
     
-    
+    public void processMessageReceived(String nickname, String dataMessage){
+        gui.setTextLog(nickname + " : " + dataMessage);
+    }
     
     
     

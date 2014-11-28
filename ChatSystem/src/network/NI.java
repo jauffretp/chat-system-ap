@@ -72,8 +72,18 @@ public class NI implements CtrlToNI {
     }
 
     @Override
-    public void sendMessage(String username, String ip, String message, String messageNumber) {
-        System.out.println("NI : Ready to send \"" + message + "\" to " + username + " @" + ip);
+    public void sendMessage(String username, String ip, String txtMessage, String messageNumber) {
+        System.out.println("NI : Ready to send \"" + txtMessage + "\" to " + username + " @" + ip);
+        Message message = new Message();
+        message.initMessage("message", username, txtMessage, "1");
+        System.out.println("Message sent : " + message.toString() ) ; 
+        try {
+            udpSender.sendMessage(InetAddress.getByName(ip), message);
+        } catch (UnknownHostException ex) {
+            System.out.println("Error sending message to " + ip + " : Unknown host");
+        }
+    
+    
     }
 
     @Override
@@ -109,7 +119,7 @@ public class NI implements CtrlToNI {
     
     @Override
     public void processMessage(String nickname, String dataMessage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        controller.processMessageReceived(nickname, dataMessage) ;
     }
 
     @Override

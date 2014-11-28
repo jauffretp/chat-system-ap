@@ -83,7 +83,7 @@ public class ConnectWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please provide a nickname");
         }
         else{
-        gui.ConnectButtonPushed(jTextField1.getText());
+        gui.connectButtonPushed(jTextField1.getText());
         }
     }//GEN-LAST:event_jButtonConnectActionPerformed
 

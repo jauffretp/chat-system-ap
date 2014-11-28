@@ -8,7 +8,7 @@ public interface CtrlToNI {
     public void sendHello(String nickname) ; 
     public void sendHelloAck(String local_username, String ip) ; 
     public void sendGoodbye() ; 
-    public void sendMessage(String message, String remote_username, int messageNumber) ; 
+    public void sendMessage(String username, String ip, String message, String messageNumber) ; 
     public void sendMessageAck(String local_username, int messageNumber);
     public void sendFileTo(File file, String username)  ;  
     

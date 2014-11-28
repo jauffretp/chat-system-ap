@@ -3,19 +3,18 @@ package ihm;
 import controller.Controller;
 import java.io.File;
 import model.Message;
-import model.UserList;
+import model.User;
 
 public class GUI implements CtrlToGUI {
 
     private Controller controller;
-    private UserList listUsers;
     private ConnectWindow connectWindow;
     private WindowChatSystem windowChat;
 
     public GUI(Controller controller) {
         this.controller = controller;
-        this.listUsers = UserList.getInstance();
         windowChat = new WindowChatSystem(this, controller) ;
+        windowChat.setLog("Welcome to the ChatSystem !");
         this.connectWindow = new ConnectWindow(this) ;
         this.connectWindow.setVisible(true);
     }
@@ -30,9 +29,14 @@ public class GUI implements CtrlToGUI {
     
 
     // sending side 
-    public void ConnectButtonPushed(String nickname) {
+    public void connectButtonPushed(String nickname) {
         controller.performConnect(nickname);
         connectWindow.dispose() ;          
         windowChat.setVisible(true);
     }
+    
+    public void sendButtonPushed(Object[] users, String txtMessage ) {
+        controller.performMessage(txtMessage, users);
+    }
+    
 }

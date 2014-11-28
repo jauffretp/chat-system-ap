@@ -40,6 +40,14 @@ public class Controller {
         ni.sendHello(nickname); 
     }
 
+    public void performMessage(String txtMessage, Object[] users){
+      System.out.println("Controller : Send Message to users selected");
+      for (Object userObj : users){
+          User user = (User) userObj ; 
+          ni.sendMessage(user.getNickname(), user.getIp(), txtMessage, "14");
+      }        
+    }
+    
     
     // receiving side 
     

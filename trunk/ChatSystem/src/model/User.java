@@ -27,4 +27,8 @@ public class User {
         return ip;
     }   
     
+    public Boolean equals(User anotherUser){
+        return (anotherUser.getNickname().equals(this.nickname) && anotherUser.getIp().equals(this.ip));
+    }
+    
 }

@@ -40,25 +40,46 @@ class UDPReceiver extends Thread {
                 String nickname = (String) messageReceived.get("userName");
                 String type = (String) messageReceived.get("type");
 
-                switch (type) {
-                    case "message":
-                        ni.processMessage(nickname, messageData);
-                        break;
-                    case "messageAck":
-                        ni.processMessageAck(nickname);
-                        break;
-                    case "hello":
-                        ni.processHello(nickname, dp.getAddress().getHostAddress());
-                        break;
-                    case "helloAck":
-                        ni.processHelloAck(nickname, dp.getAddress().getHostAddress());
-                        break;
-                    case "goodBye":
-                        ni.processHelloAck(nickname, dp.getAddress().getHostAddress());
-                        break;
-                    default:
-                        System.out.println("Erreur : type non reconnu !");
+                if(type.equals("message")) {
+                     ni.processMessage(nickname, "");
                 }
+                else if (type.equals("messageAck")) {
+                    ni.processMessageAck(nickname);
+                }
+                 else if (type.equals("hello")) {
+                    ni.processHello(nickname, dp.getAddress().getHostAddress());
+                }
+                else if (type.equals("helloAck")) {
+                    ni.processHelloAck(nickname, dp.getAddress().getHostAddress());
+                }
+                else if (type.equals("goodBye")) {
+                    ni.processGoodBye(nickname);  
+                }
+                else{
+                    System.out.println("UDPReceiver : Error with the message (don't recognize type)");
+                }
+                
+//                 INCOMPATIBLE JAVA 1.6 
+                
+//                switch (type) {
+//                    case "message":
+//                        ni.processMessage(nickname, messageData);
+//                        break;
+//                    case "messageAck":
+//                        ni.processMessageAck(nickname);
+//                        break;
+//                    case "hello":
+//                        ni.processHello(nickname, dp.getAddress().getHostAddress());
+//                        break;
+//                    case "helloAck":
+//                        ni.processHelloAck(nickname, dp.getAddress().getHostAddress());
+//                        break;
+//                    case "goodBye":
+//                        ni.processGoodBye(nickname);  
+//                        break;
+//                    default:
+//                        System.out.println("Erreur : type non reconnu !");
+//                }
 
             } catch (IOException ex) {
                 if (isActive()) {

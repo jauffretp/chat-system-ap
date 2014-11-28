@@ -5,6 +5,9 @@ import org.json.JSONObject;
 
 public class Message extends JSONObject {
 
+    
+    
+    
     public Message() {
         super();
     }
@@ -20,13 +23,28 @@ public class Message extends JSONObject {
             ex.printStackTrace();
         }
     }
-
+    
+ 
     public void initMessage(JSONObject jsonObj) {
         try {
-            this.initMessage((String) jsonObj.get("type"), (String) jsonObj.get("userName"), (String) jsonObj.get("messageData"), (String) jsonObj.get("messageNumber"));
+            String type = (String) jsonObj.get("type");
+            if(type.equals("hello") || type.equals( "helloAck")){
+                this.initMessage((String) jsonObj.get("type"), (String) jsonObj.get("userName")," ", " ");
+            }
+            else if(type.equals( "goodBye")){
+                this.initMessage((String) jsonObj.get("type")," "," "," ");
+            }
+            else if(type.equals( "message")){
+                this.initMessage((String) jsonObj.get("type")," ", (String) jsonObj.get("messageData"), (String) jsonObj.get("messageNumber"));
+            }
+             else if(type.equals( "messageAck")){
+                 this.initMessage((String) jsonObj.get("type")," " , " ", (String) jsonObj.get("messageNumber"));
+             }
+            
         } catch (JSONException ex) {
             System.out.println("Error with initMessage(JSON)");
             ex.printStackTrace();
         }
     }
+    
 }

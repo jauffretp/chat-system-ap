@@ -61,6 +61,8 @@ public class WindowChatSystem extends javax.swing.JFrame {
         zoneLog.setEditable(false);
         zoneLog.setColumns(20);
         zoneLog.setRows(5);
+        zoneLog.setAutoscrolls(true);
+        zoneLog.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPaneLog.setViewportView(zoneLog);
 
         jButtonQuit.setText("Quit");

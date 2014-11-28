@@ -35,7 +35,7 @@ public class GUI implements CtrlToGUI {
         windowChat.setVisible(true);
     }
     
-    public void sendButtonPushed(Object[] users, String txtMessage ) {
+    public void sendButtonPushed(Object[] users, String txtMessage ) {        
         controller.performMessage(txtMessage, users);
     }
     

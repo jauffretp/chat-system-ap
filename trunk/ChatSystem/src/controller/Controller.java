@@ -58,8 +58,9 @@ public class Controller {
     
     public void performMessage(String txtMessage, Object[] users){
       System.out.println("Controller : Send Message to users selected");
-      for (Object userObj : users){
+      for (Object userObj : users){          
           User user = (User) userObj ; 
+          gui.setTextLog("you (to " + user.getNickname() + " )" + " : " + txtMessage);
           ni.sendMessage(nickname, user.getIp(), txtMessage, "14");
       }        
     }

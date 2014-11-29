@@ -91,12 +91,12 @@ public class Controller {
     
     public void processHelloReceived(String username, String ip){
         System.out.println("Controller : HelloReceived from "+ username + "@" + ip);
-        if(!username.equals(nickname)) {   
+        //if(!username.equals(nickname)) {   
             System.out.println("Controller : We add ");
             User newUser = new User(username, ip);
             listModel.addElement(newUser);
             gui.setTextLog(newUser + " is connected to the ChatSystem");
-        }
+        //}
         ni.sendHelloAck(nickname, ip);
     }
     

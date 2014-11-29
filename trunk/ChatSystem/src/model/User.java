@@ -1,13 +1,10 @@
 
 package model;
 
-import java.net.InetAddress;
-
-
 public class User {
 
-    private String nickname ; 
-    private String ip ;
+    private final String nickname ; 
+    private final String ip ;
 
     public User(String nickname, String ip) {
         this.nickname = nickname;

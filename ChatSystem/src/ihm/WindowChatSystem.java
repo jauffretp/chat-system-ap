@@ -1,18 +1,14 @@
 package ihm;
 
-import controller.Controller;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
-import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
 
 public class WindowChatSystem extends javax.swing.JFrame {
 
     private final GUI gui;
-    private final Controller ctrl;
 
-    public WindowChatSystem(GUI gui, Controller ctrl) {
+    public WindowChatSystem(GUI gui) {
         this.gui = gui;
-        this.ctrl = ctrl;
         initComponents();
     }
 
@@ -56,7 +52,7 @@ public class WindowChatSystem extends javax.swing.JFrame {
             }
         });
 
-        jListUserList.setModel(ctrl.getListModel());
+        jListUserList.setModel(gui.getListModel());
         jScrollPaneTextField.setViewportView(jListUserList);
 
         zoneLog.setEditable(false);
@@ -243,8 +239,14 @@ public class WindowChatSystem extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemInfoActionPerformed
 
     private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed
-        gui.sendButtonPushed(jListUserList.getSelectedValues(), jEditorPaneMessage.getText());
+        Object[] users ; 
+        users = jListUserList.getSelectedValues();
+        if (users.length == 0) {
+            JOptionPane.showMessageDialog(null, "Please select an user", "ChatSystem  : Sending", JOptionPane.INFORMATION_MESSAGE);
+        } else {        
+            gui.sendButtonPushed(users, jEditorPaneMessage.getText());
             jEditorPaneMessage.setText("");
+         }
     }//GEN-LAST:event_jButtonSendActionPerformed
 
     private void jButtonClearTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearTextFieldActionPerformed
@@ -257,8 +259,8 @@ public class WindowChatSystem extends javax.swing.JFrame {
 
     private void jEditorPaneMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jEditorPaneMessageKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER && jCheckBoxEnterToSend.isSelected()) {
-            gui.sendButtonPushed(jListUserList.getSelectedValues(), jEditorPaneMessage.getText().replace('\n', ' '));
-            jEditorPaneMessage.setText("");
+            jEditorPaneMessage.setText(jEditorPaneMessage.getText().replace('\n', ' '));
+            jButtonSendActionPerformed(null) ; 
         }
     }//GEN-LAST:event_jEditorPaneMessageKeyPressed
 

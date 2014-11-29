@@ -1,10 +1,9 @@
-
-package model;
+package modelUser;
 
 public class User {
 
-    private final String nickname ; 
-    private final String ip ;
+    private final String nickname;
+    private final String ip;
 
     public User(String nickname, String ip) {
         this.nickname = nickname;
@@ -13,7 +12,7 @@ public class User {
 
     @Override
     public String toString() {
-        return nickname + "@" + ip ;
+        return nickname + "@" + ip;
     }
 
     public String getNickname() {
@@ -22,10 +21,10 @@ public class User {
 
     public String getIp() {
         return ip;
-    }   
-    
-    public Boolean equals(User anotherUser){
+    }
+
+    public Boolean equals(User anotherUser) {
         return (anotherUser.getNickname().equals(this.nickname) && anotherUser.getIp().equals(this.ip));
     }
-    
+
 }

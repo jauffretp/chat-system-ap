@@ -6,13 +6,13 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import model.Message;
-import org.json.JSONObject;
+
+import modelMessage.Message;
 
 
 class UDPSender{
 
-       private DatagramSocket ds;
+    private DatagramSocket ds;
     private final int destPort;
     private final static int size = 1000;
 

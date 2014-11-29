@@ -9,11 +9,11 @@ import javax.swing.JOptionPane;
  */
 public class ConnectWindow extends javax.swing.JFrame {
 
-    private final GUI gui ;
-    
+    private final GUI gui;
+
     public ConnectWindow(GUI gui) {
-        this.gui = gui ;
-        initComponents();        
+        this.gui = gui;
+        initComponents();
     }
 
     /**
@@ -83,22 +83,20 @@ public class ConnectWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-        if (jTextFieldUsername.getText().equals("") || jTextFieldUsername.getText() == null ){
+        if (jTextFieldUsername.getText().equals("") || jTextFieldUsername.getText() == null) {
             JOptionPane.showMessageDialog(null, "Please provide a nickname");
-        }
-        else{
-        gui.connectButtonPushed(jTextFieldUsername.getText());
+        } else {
+            gui.connectButtonPushed(jTextFieldUsername.getText());
         }
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void jTextFieldUsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldUsernameKeyPressed
-        if (evt.getKeyCode()==KeyEvent.VK_ENTER){
-            connectButtonActionPerformed(null) ; 
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            connectButtonActionPerformed(null);
         }
     }//GEN-LAST:event_jTextFieldUsernameKeyPressed
-    
-    
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connectButton;
     private javax.swing.JTextField jTextFieldUsername;

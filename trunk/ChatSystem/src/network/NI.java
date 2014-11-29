@@ -5,39 +5,49 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-
-import model.Message;
-import controller.Controller;
 import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import controller.Controller;
+import modelMessage.Message;
+import modelMessage.MessageFactory.MessageFormat;
+import static modelMessage.MessageFactory.getMessageObject;
+
 
 public class NI implements CtrlToNI {
 
     private final int port = 1337;
     private final int destPort = 1337;
+    private final String adrBroadcast = "255.255.255.255"  ; 
+    
     private ArrayList<TCPSender> tcpSenderArray;
     private ArrayList<TCPReceiver> tcpReceiverArray;
     private TCPSender tcpSender;
     private UDPSender udpSender;
-    private UDPReceiver udpReceiver;
+    
+    private final UDPReceiver udpReceiver;
     private Controller controller;
+    private MessageFormat typeMessage ; 
 
-    public NI(Controller controller) {
+    public NI(Controller controller, MessageFormat typeMessage) {
+        
+        this.controller = controller;
+        this.typeMessage = typeMessage ; 
+        
         this.tcpSenderArray = new ArrayList();
         this.tcpReceiverArray = new ArrayList();
         this.tcpSender = new TCPSender();
-        this.controller = controller;
-
+                
         try {
             this.udpSender = new UDPSender(port, destPort);
         } catch (SocketException ex) {
             System.out.println("Error creating udpSender");
         }
-
         this.udpReceiver = new UDPReceiver(udpSender.getDs(), this);
     }
 
@@ -46,11 +56,11 @@ public class NI implements CtrlToNI {
     ///////////////////
     @Override
     public void sendHello(String nickname) {
-        Message message = new Message();
+        Message message = getMessageObject(typeMessage) ; 
         message.initMessage("hello", nickname, "", "1");
         System.out.println("Message sent : " + message.toString());
         try {
-            udpSender.sendMessage(InetAddress.getByName("255.255.255.255"), message);
+            udpSender.sendMessage(InetAddress.getByName(adrBroadcast), message);
         } catch (UnknownHostException ex) {
             System.out.println("Error sending message : Unknown host");
         }
@@ -58,9 +68,10 @@ public class NI implements CtrlToNI {
 
     @Override
     public void sendHelloAck(String local_username, String ip) {
-        Message message = new Message();
+        Message message = getMessageObject(typeMessage) ; 
         message.initMessage("helloAck", local_username, "", "1");
         System.out.println("Message sent : " + message.toString());
+        
         try {
             udpSender.sendMessage(InetAddress.getByName(ip), message);
         } catch (UnknownHostException ex) {
@@ -70,7 +81,7 @@ public class NI implements CtrlToNI {
 
     @Override
     public void sendGoodbye() {
-        Message message = new Message();
+        Message message = getMessageObject(typeMessage) ;
         message.initMessage("goodBye", " ", " ", " ");
         System.out.println("NI : goodBye ");
         try {
@@ -84,7 +95,7 @@ public class NI implements CtrlToNI {
     @Override
     public void sendMessage(String username, String ip, String txtMessage, String messageNumber) {
         System.out.println("NI : Ready to send \"" + txtMessage + "\" to " + username + " @" + ip);
-        Message message = new Message();
+        Message message = getMessageObject(typeMessage) ;
         message.initMessage("message", username, txtMessage, messageNumber);
         System.out.println("Message sent : " + message.toString());
         try {
@@ -113,14 +124,14 @@ public class NI implements CtrlToNI {
             try {
                 DatagramPacket dp = (DatagramPacket) packet;
 
-                Message messageReceived = new Message();
+                Message messageReceived = getMessageObject(typeMessage) ;
                 messageReceived.initMessage(new JSONObject(new String(dp.getData(), "UTF-8")));
 
                 String ip = dp.getAddress().getHostAddress();
 
-                String messageData = (String) messageReceived.get("messageData");
-                String nickname = (String) messageReceived.get("userName");
-                String type = (String) messageReceived.get("type");
+                String messageData = (String) messageReceived.getMessageData();
+                String nickname = (String) messageReceived.getUserName();
+                String type = (String) messageReceived.getType();
 
                 if (type.equals("message")) {
                     System.out.println("UDPReceiver : " + nickname);

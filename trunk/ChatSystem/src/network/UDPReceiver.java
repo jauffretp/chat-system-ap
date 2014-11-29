@@ -36,8 +36,8 @@ class UDPReceiver extends Thread {
                 }
             }
         }
-            ds.close();
-            System.out.println("closed UDPReceiver");       
+        ds.close();
+        System.out.println("closed UDPReceiver");
     }
 
     /**
@@ -48,7 +48,7 @@ class UDPReceiver extends Thread {
     }
 
     /**
-     * @param active set to false stop the thread 
+     * @param active set to false stop the thread
      */
     public void setActive(boolean active) {
         this.active = active;

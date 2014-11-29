@@ -1,6 +1,5 @@
 package network;
 
-
 import java.io.File;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -9,6 +8,12 @@ import java.util.ArrayList;
 
 import model.Message;
 import controller.Controller;
+import java.io.UnsupportedEncodingException;
+import java.net.DatagramPacket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class NI implements CtrlToNI {
 
@@ -26,28 +31,24 @@ public class NI implements CtrlToNI {
         this.tcpReceiverArray = new ArrayList();
         this.tcpSender = new TCPSender();
         this.controller = controller;
-        
+
         try {
             this.udpSender = new UDPSender(port, destPort);
         } catch (SocketException ex) {
             System.out.println("Error creating udpSender");
         }
-        
-        this.udpReceiver = new UDPReceiver(udpSender.getDs(), this);        
-}
-        
-      
 
-    
+        this.udpReceiver = new UDPReceiver(udpSender.getDs(), this);
+    }
+
     ////////////////////
     // Sending side//
     ///////////////////
-    
     @Override
     public void sendHello(String nickname) {
         Message message = new Message();
         message.initMessage("hello", nickname, "", "1");
-        System.out.println("Message sent : " + message.toString() ) ; 
+        System.out.println("Message sent : " + message.toString());
         try {
             udpSender.sendMessage(InetAddress.getByName("255.255.255.255"), message);
         } catch (UnknownHostException ex) {
@@ -59,7 +60,7 @@ public class NI implements CtrlToNI {
     public void sendHelloAck(String local_username, String ip) {
         Message message = new Message();
         message.initMessage("helloAck", local_username, "", "1");
-        System.out.println("Message sent : " + message.toString() ) ; 
+        System.out.println("Message sent : " + message.toString());
         try {
             udpSender.sendMessage(InetAddress.getByName(ip), message);
         } catch (UnknownHostException ex) {
@@ -71,13 +72,13 @@ public class NI implements CtrlToNI {
     public void sendGoodbye() {
         Message message = new Message();
         message.initMessage("goodBye", " ", " ", " ");
-        System.out.println("NI : goodBye " ) ; 
+        System.out.println("NI : goodBye ");
         try {
             udpSender.sendMessage(InetAddress.getByName("255.255.255.255"), message);
         } catch (UnknownHostException ex) {
             System.out.println("Error sending message : Unknown host");
         }
-        
+
     }
 
     @Override
@@ -85,14 +86,13 @@ public class NI implements CtrlToNI {
         System.out.println("NI : Ready to send \"" + txtMessage + "\" to " + username + " @" + ip);
         Message message = new Message();
         message.initMessage("message", username, txtMessage, messageNumber);
-        System.out.println("Message sent : " + message.toString() ) ; 
+        System.out.println("Message sent : " + message.toString());
         try {
             udpSender.sendMessage(InetAddress.getByName(ip), message);
         } catch (UnknownHostException ex) {
             System.out.println("Error sending message to " + ip + " : Unknown host");
         }
-    
-    
+
     }
 
     @Override
@@ -104,42 +104,71 @@ public class NI implements CtrlToNI {
     public void sendFileTo(File file, String username) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-        
-    
+
     ////////////////////
     // Receiving side//
     ///////////////////   
-    
+    public void parsePacketReceivedToMessage(Object packet) {
+        if (packet instanceof DatagramPacket) {
+            try {
+                DatagramPacket dp = (DatagramPacket) packet;
+
+                Message messageReceived = new Message();
+                messageReceived.initMessage(new JSONObject(new String(dp.getData(), "UTF-8")));
+
+                String ip = dp.getAddress().getHostAddress();
+
+                String messageData = (String) messageReceived.get("messageData");
+                String nickname = (String) messageReceived.get("userName");
+                String type = (String) messageReceived.get("type");
+
+                if (type.equals("message")) {
+                    System.out.println("UDPReceiver : " + nickname);
+                    processMessage(ip, messageData);
+                } else if (type.equals("messageAck")) {
+                    processMessageAck(nickname);
+                } else if (type.equals("hello")) {
+                    processHello(nickname, ip);
+                } else if (type.equals("helloAck")) {
+                    processHelloAck(nickname, dp.getAddress().getHostAddress());
+                } else if (type.equals("goodBye")) {
+                    processGoodBye(ip);
+                } else {
+                    System.out.println("UDPReceiver : Error with the message (don't recognize type)");
+                }
+            } catch (JSONException ex) {
+                System.out.println("NI : Can't create Message Object");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(NI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            System.out.println("NI : Packet type received not recognized");
+        }
+    }
+
     @Override
     public void processHello(String nickname, String ip) {
-        controller.processHelloReceived(nickname, ip) ;
+        controller.processHelloReceived(nickname, ip);
     }
 
     @Override
     public void processHelloAck(String nickname, String ip) {
-        controller.processHelloAckReceived(nickname, ip) ;
+        controller.processHelloAckReceived(nickname, ip);
     }
-    
+
     @Override
     public void processGoodBye(String ip) {
-       controller.processGoodbyeReceived(ip);
-      }
-    
-    
+        controller.processGoodbyeReceived(ip);
+    }
+
     @Override
     public void processMessage(String ip, String dataMessage) {
-        controller.processMessageReceived(ip, dataMessage) ;
+        controller.processMessageReceived(ip, dataMessage);
     }
 
     @Override
     public void processMessageAck(String nickname) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-   
-    
-    
-    
-    
 
 }

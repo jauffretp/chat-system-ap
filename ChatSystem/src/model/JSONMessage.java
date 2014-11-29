@@ -4,7 +4,7 @@ import java.net.DatagramPacket;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Message extends JSONObject {
+public class JSONMessage extends JSONObject {
 
     public static final int HELLO = 0;
     public static final int HELLO_ACK = 1;
@@ -14,7 +14,7 @@ public class Message extends JSONObject {
     public static final int UNKNOWN = 5;
         
         
-    public Message() {
+    public JSONMessage() {
         super();
     }    
     

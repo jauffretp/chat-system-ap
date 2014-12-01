@@ -47,6 +47,7 @@
       <Color id="Pointeur par d&#xe9;faut"/>
     </Property>
     <Property name="focusCycleRoot" type="boolean" value="false"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar"/>

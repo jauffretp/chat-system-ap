@@ -132,12 +132,11 @@ public class NI implements CtrlToNI {
     ///////////////////   
     public void handlePacketReceived(Object packet) {
         if (packet instanceof DatagramPacket) {
-            try {
                 DatagramPacket dp = (DatagramPacket) packet;
 
                 Message messageReceived = getMessageObject(typeMessage) ;
-                messageReceived.initMessage(new JSONObject(new String(dp.getData(), "UTF-8")));
-
+                //messageReceived.initMessage(new JSONObject(new String(dp.getData(), "UTF-8")));
+                messageReceived.initMessage(packet);
                 String ip = dp.getAddress().getHostAddress();
 
                 String messageData = (String) messageReceived.getMessageData();
@@ -166,11 +165,7 @@ public class NI implements CtrlToNI {
                 } else {
                     System.out.println("UDPReceiver : Error with the message (don't recognize type)");
                 }
-            } catch (JSONException ex) {
-                System.out.println("NI : Can't create Message Object");
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(NI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
         } else {
             System.out.println("NI : Packet type received not recognized");
         }

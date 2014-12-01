@@ -28,7 +28,7 @@ class UDPReceiver extends Thread {
                 ds.receive(dp);
                 System.out.println("dp received!");
 
-                ni.parsePacketReceivedToMessage(dp);
+                ni.handlePacketReceived(dp);
 
             } catch (IOException ex) {
                 if (isActive()) {

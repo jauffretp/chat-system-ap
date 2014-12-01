@@ -130,7 +130,7 @@ public class NI implements CtrlToNI {
     ////////////////////
     // Receiving side//
     ///////////////////   
-    public void parsePacketReceivedToMessage(Object packet) {
+    public void handlePacketReceived(Object packet) {
         if (packet instanceof DatagramPacket) {
             try {
                 DatagramPacket dp = (DatagramPacket) packet;

@@ -13,11 +13,12 @@ public class Controller {
     private CtrlToGUI gui;
     private String nickname;
     private final DefaultListModel listModel;
-
+    private int messageNumberCpt ; 
     
     
     public Controller() {
         listModel = new DefaultListModel();
+        messageNumberCpt = 0 ;
     }
 
     public void setNi(CtrlToNI ni) {
@@ -76,7 +77,8 @@ public class Controller {
             for (Object userObj : users) {
                 User user = (User) userObj;
                 gui.setTextLog("You (to " + user.getNickname() + ")" + " : " + txtMessage);
-                ni.sendMessage(nickname, user.getIp(), txtMessage, "14");
+                ni.sendMessage(nickname, user.getIp(), txtMessage, messageNumberCpt);
+                messageNumberCpt++ ; 
             }
         }
     /////////////////////////////////// 
@@ -114,6 +116,10 @@ public class Controller {
         String username = getUsername(ip);
         System.out.println("UDPReceiver : " + username);
         gui.setTextLog(username + " : " + dataMessage);
+    }
+
+    public void processMessageAckReceived(int messageNumber) {
+        gui.setTextLog("[ACK] Message " + messageNumber);
     }
 
 }

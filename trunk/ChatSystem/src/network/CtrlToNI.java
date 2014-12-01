@@ -11,9 +11,9 @@ public interface CtrlToNI {
 
     public void sendGoodbye();
 
-    public void sendMessage(String username, String ip, String message, String messageNumber);
+    public void sendMessage(String username, String ip, String message, int messageNumber);
 
-    public void sendMessageAck(String local_username, int messageNumber);
+    public void sendMessageAck(String ip, int messageNumber) ; 
 
     public void sendFileTo(File file, String username);
 
@@ -26,5 +26,5 @@ public interface CtrlToNI {
 
     public void processMessage(String nickname, String dataMessage);
 
-    public void processMessageAck(String nickname);
+    public void processMessageAck(int messageNumber);
 }

@@ -14,7 +14,7 @@ public class JSONMessage extends JSONObject implements Message {
     // JSONMessage Object treatments \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     // initilaizes a Message object from Strings     
     @Override
-    public void initMessage(String type, String userName, String messageData, String messageNumber) {
+    public void initMessage(String type, String userName, String messageData, int messageNumber) {
         try {
             this.put("type", type);
             this.put("userName", userName);
@@ -34,7 +34,7 @@ public class JSONMessage extends JSONObject implements Message {
         } catch (JSONException ex) {
             System.out.println("JSONMessage : Can't get messageData value");
         }
-        return returnValue;
+        return returnValue;        
     }
 
     @Override
@@ -59,10 +59,10 @@ public class JSONMessage extends JSONObject implements Message {
         return returnValue;
     }
 
-    public String getMessageNumber() {
-        String returnValue = " ";
+    public int getMessageNumber() {
+        int returnValue = -2 ;
         try {
-            returnValue = (String) this.get("messageNumber");
+            returnValue = Integer.parseInt(this.get("messageNumber").toString()) ; 
         } catch (JSONException ex) {
             System.out.println("JSONMessage : Can't get messageNumber value");
         }
@@ -117,16 +117,16 @@ public class JSONMessage extends JSONObject implements Message {
                 switch (type) {
                     case HELLO:
                     case HELLO_ACK:
-                        this.initMessage((String) jsonObj.get("type"), (String) jsonObj.get("userName"), " ", " ");
+                        this.initMessage((String) jsonObj.get("type"), (String) jsonObj.get("userName"), " ", -1);
                         break;
                     case MESSAGE:
-                        this.initMessage((String) jsonObj.get("type"), " ", (String) jsonObj.get("messageData"), (String) jsonObj.get("messageNumber"));
+                        this.initMessage((String) jsonObj.get("type"), " ", (String) jsonObj.get("messageData"), Integer.parseInt(jsonObj.get("messageNumber").toString()));
                         break;
                     case MESSAGE_ACK:
-                        this.initMessage((String) jsonObj.get("type"), " ", " ", (String) jsonObj.get("messageNumber"));
+                        this.initMessage((String) jsonObj.get("type"), " ", " ", Integer.parseInt(jsonObj.get("messageNumber").toString()));
                         break;
                     case GOODBYE:
-                        this.initMessage((String) jsonObj.get("type"), " ", " ", " ");
+                        this.initMessage((String) jsonObj.get("type"), " ", " ", -1);
                         break;
                     default:
                         System.out.println("Message : Error initializing JSONMessage from JSON object");

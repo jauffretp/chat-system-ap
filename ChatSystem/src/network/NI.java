@@ -146,17 +146,22 @@ public class NI implements CtrlToNI {
                 String type = (String) messageReceived.getType();
 
                 if (type.equals("message")) {
+                    System.out.println("NI Type = message");
                     System.out.println("UDPReceiver : " + nickname);
                     processMessage(ip, messageData);
                     sendMessageAck(ip, messageNumber);
                 } else if (type.equals("messageAck")) {
+                    System.out.println("NI Type = messageAck");
                     System.out.println(messageNumber);
                     processMessageAck(messageNumber);
                 } else if (type.equals("hello")) {
+                    System.out.println("NI Type = hello");
                     processHello(nickname, ip);
                 } else if (type.equals("helloAck")) {
+                    System.out.println("NI Type = helloAck");
                     processHelloAck(nickname, dp.getAddress().getHostAddress());
                 } else if (type.equals("goodBye")) {
+                    System.out.println("NI Type = goodBye"); 
                     processGoodBye(ip);
                 } else {
                     System.out.println("UDPReceiver : Error with the message (don't recognize type)");

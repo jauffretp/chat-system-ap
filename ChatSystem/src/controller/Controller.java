@@ -119,7 +119,7 @@ public class Controller {
     }
 
     public void processMessageAckReceived(int messageNumber) {
-        gui.setTextLog("[ACK] Message " + messageNumber);
+        gui.setAckLog("[ACK] Message " + messageNumber );
     }
 
 }

@@ -25,6 +25,13 @@ public class GUI implements CtrlToGUI {
         System.out.println("GUI : setTextLog");
         windowChat.setLog(text);
     }
+    
+    @Override
+    public void setAckLog(String text) {
+        System.out.println("GUI : setAckLog");
+        windowChat.setAckLog(text);
+    }
+    
     ////////////////
 
     // sending side 
@@ -46,4 +53,6 @@ public class GUI implements CtrlToGUI {
     ListModel getListModel() {
         return controller.getListModel() ; 
     }
+
+    
 }

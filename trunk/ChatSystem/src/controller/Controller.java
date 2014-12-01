@@ -87,7 +87,7 @@ public class Controller {
     public void processHelloReceived(String username, String ip) {
         System.out.println("Controller : HelloReceived from " + username + "@" + ip);
         //if(!username.equals(nickname)) {   
-        System.out.println("Controller : We add ");
+        System.out.println("Controller : We add " + username + "@" + ip + " to the user list");
         User newUser = new User(username, ip);
         listModel.addElement(newUser);
         gui.setTextLog(newUser + " is connected to the ChatSystem");
@@ -99,7 +99,7 @@ public class Controller {
         System.out.println("Controller : HelloAckReceived from " + username + "@" + ip);
 
         if (!username.equals(nickname)) {
-            System.out.println("Controller : We add " + nickname);
+            System.out.println("Controller : We add " + username + "@" + ip + " to the user list");
             User newUser = new User(username, ip);
             listModel.addElement(newUser);
             gui.setTextLog(newUser + " is connected to the ChatSystem");
@@ -108,17 +108,19 @@ public class Controller {
 
     public void processGoodbyeReceived(String ip) {
         User userDisconnected = getUser(ip);
+        System.out.println("Controller : GoodBye received from" + userDisconnected.getNickname() + "@" + userDisconnected.getIp());
         listModel.removeElement(userDisconnected);
         gui.setTextLog(userDisconnected + " is now disconnected from the Chatsystem !");
     }
 
     public void processMessageReceived(String ip, String dataMessage) {
         String username = getUsername(ip);
-        System.out.println("UDPReceiver : " + username);
+        System.out.println("Controller : Message received from " + username);
         gui.setTextLog(username + " : " + dataMessage);
     }
 
     public void processMessageAckReceived(int messageNumber) {
+        System.out.println("Controller : Ack n° " + messageNumber + " received");
         gui.setAckLog("[ACK] Message " + messageNumber );
     }
 

@@ -26,7 +26,7 @@ class UDPReceiver extends Thread {
                 DatagramPacket dp = new DatagramPacket(new byte[size], size);
                 System.out.println("ready to receive");
                 ds.receive(dp);
-                System.out.println("dp received!");
+                System.out.println("Dp received!");
 
                 ni.handlePacketReceived(dp);
 

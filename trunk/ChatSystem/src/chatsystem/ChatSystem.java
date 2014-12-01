@@ -5,7 +5,7 @@ import ihm.CtrlToGUI;
 import ihm.GUI;
 import network.CtrlToNI;
 import network.NI;
-import static modelMessage.MessageFactory.MessageFormat.JSON;
+import modelMessage.MessageFormat;
 
 public class ChatSystem {
 
@@ -15,7 +15,7 @@ public class ChatSystem {
 
     public ChatSystem() {
         this.ctrl = new Controller();
-        this.ni = new NI(ctrl, JSON);
+        this.ni = new NI(ctrl, MessageFormat.JSON);
         this.gui = new GUI(ctrl);
         this.ctrl.setGui(gui);
         this.ctrl.setNi(ni);

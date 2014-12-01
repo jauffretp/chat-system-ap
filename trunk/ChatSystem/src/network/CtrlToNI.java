@@ -1,7 +1,5 @@
 package network;
 
-import java.io.File;
-
 public interface CtrlToNI {
 
     // sending side
@@ -15,7 +13,7 @@ public interface CtrlToNI {
 
     public void sendMessageAck(String ip, int messageNumber) ; 
 
-    public void sendFileTo(File file, String username);
+    public void sendFileTo(String filePath, String username);
 
     // receiving side    
     public void processHello(String nickname, String ip);

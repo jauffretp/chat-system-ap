@@ -1,24 +1,20 @@
 package controller;
 
-import javax.swing.DefaultListModel;
-
 import ihm.CtrlToGUI;
 import network.CtrlToNI;
-import modelUser.User;
-
+import modelUser.UserList;
 
 public class Controller {
 
     private CtrlToNI ni;
     private CtrlToGUI gui;
     private String nickname;
-    private final DefaultListModel listModel;
-    private int messageNumberCpt ; 
-    
-    
+    private final UserList userList;
+    private int messageNumberCpt;
+
     public Controller() {
-        listModel = new DefaultListModel();
-        messageNumberCpt = 0 ;
+        userList = new UserList();
+        messageNumberCpt = 0;
     }
 
     public void setNi(CtrlToNI ni) {
@@ -29,68 +25,42 @@ public class Controller {
         this.gui = gui;
     }
 
-    
-    
-    /// Handling the model ///////////
-    public DefaultListModel getListModel() {
-        return listModel;
+    public UserList getListModel() {
+        return userList.getUserList();
     }
 
-    public String getUsername(String ip) {
-        String username = "";
-        for (int index = 0; index < listModel.size(); index++) {
-            Object user = listModel.get(index);
-            if (((User) user).getIp().equals(ip)) {
-                username = ((User) user).getNickname();
-            }
-        }
-        return username;
-    }
-
-    public User getUser(String ip) {
-        User userResult = null;
-        for (int index = 0; index < listModel.size(); index++) {
-            Object user = listModel.get(index);
-            if (((User) user).getIp().equals(ip)) {
-                userResult = ((User) user);
-            }
-        }
-        return userResult;
-    }
-    ///////////////////////////////////  
-    
-    
     // sending side /////////////////////////    
     public void performConnect(String nickname) {
         this.nickname = nickname;
-        System.out.println("Controller : Send Hello (broadcast) , nickname = " + nickname);
+        System.out.println("Controller : Send Hello (broadcast) with nickname = " + nickname);
         ni.sendHello(nickname);
     }
 
     public void performDisconnect() {
-        System.out.println("Controller : Send Goodbye (broadcast) , nickname = " + nickname);
+        System.out.println("Controller : Send Goodbye (broadcast) with nickname = " + nickname);
         ni.sendGoodbye();
     }
 
     public void performMessage(String txtMessage, Object[] users) {
-            System.out.println("Controller : Send Message to users selected");
-            for (Object userObj : users) {
-                User user = (User) userObj;
-                gui.setTextLog("You (to " + user.getNickname() + ")" + " : " + txtMessage);
-                ni.sendMessage(nickname, user.getIp(), txtMessage, messageNumberCpt);
-                messageNumberCpt++ ; 
-            }
+        System.out.println("Controller : Send Message to users selected");
+        for (Object userObj : users) {
+            String remoteUser = userList.getUsername(userObj);
+            String remoteIp = userList.getIp(userObj);
+            gui.setTextLog("You (to " + remoteUser + ")" + " : " + txtMessage);
+            ni.sendMessage(nickname, remoteIp, txtMessage, messageNumberCpt);
+            messageNumberCpt++;
         }
-    /////////////////////////////////// 
+    }
 
     // receiving side /////////////////
     public void processHelloReceived(String username, String ip) {
         System.out.println("Controller : HelloReceived from " + username + "@" + ip);
-        //if(!username.equals(nickname)) {   
+
+        // We want to add ourselves
+        //if(!username.equals(nickname)) {       
         System.out.println("Controller : We add " + username + "@" + ip + " to the user list");
-        User newUser = new User(username, ip);
-        listModel.addElement(newUser);
-        gui.setTextLog(newUser + " is connected to the ChatSystem");
+        userList.addToUserList(username, ip);
+        gui.setTextLog(username + "@" + ip + " is connected to the ChatSystem");
         //}
         ni.sendHelloAck(nickname, ip);
     }
@@ -100,28 +70,26 @@ public class Controller {
 
         if (!username.equals(nickname)) {
             System.out.println("Controller : We add " + username + "@" + ip + " to the user list");
-            User newUser = new User(username, ip);
-            listModel.addElement(newUser);
-            gui.setTextLog(newUser + " is connected to the ChatSystem");
+            userList.addToUserList(username, ip);
+            gui.setTextLog(username + "@" + ip + " is connected to the ChatSystem");
         }
     }
 
     public void processGoodbyeReceived(String ip) {
-        User userDisconnected = getUser(ip);
-        System.out.println("Controller : GoodBye received from" + userDisconnected.getNickname() + "@" + userDisconnected.getIp());
-        listModel.removeElement(userDisconnected);
-        gui.setTextLog(userDisconnected + " is now disconnected from the Chatsystem !");
+        System.out.println("Controller : GoodBye received from" + userList.getUsername(ip) + "@" + ip);
+        gui.setTextLog(userList.getUsername(ip) + " is now disconnected from the Chatsystem !");
+        userList.removeToUserList(ip);
     }
 
     public void processMessageReceived(String ip, String dataMessage) {
-        String username = getUsername(ip);
+        String username = userList.getUsername(ip);
         System.out.println("Controller : Message received from " + username);
         gui.setTextLog(username + " : " + dataMessage);
     }
 
     public void processMessageAckReceived(int messageNumber) {
         System.out.println("Controller : Ack n° " + messageNumber + " received");
-        gui.setAckLog("[ACK] Message " + messageNumber );
+        gui.setAckLog("[ACK] Message " + messageNumber);
     }
 
 }

@@ -3,10 +3,6 @@ package ihm;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Anthony
- */
 public class ConnectWindow extends javax.swing.JFrame {
 
     private final GUI gui;

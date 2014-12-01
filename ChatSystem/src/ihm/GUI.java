@@ -1,9 +1,7 @@
 package ihm;
 
-import javax.swing.ListModel;
-
 import controller.Controller;
-
+import modelUser.UserList;
 
 public class GUI implements CtrlToGUI {
 
@@ -22,22 +20,21 @@ public class GUI implements CtrlToGUI {
     // receiving side 
     @Override
     public void setTextLog(String text) {
-        System.out.println("GUI : setTextLog ( " + text +" )");
+        System.out.println("GUI : setTextLog ( " + text + " )");
         windowChat.setLog(text);
     }
-    
+
     @Override
     public void setAckLog(String text) {
-        System.out.println("GUI : setAckLog( " + text +" )");
+        System.out.println("GUI : setAckLog( " + text + " )");
         windowChat.setAckLog(text);
     }
-    
-    ////////////////
 
+    ////////////////
     // sending side 
     public void connectButtonPushed(String nickname) {
         System.out.println("GUI : connectButtonPushed");
-        controller.performConnect(nickname);
+        controller.performConnect(nickname.replace('\n', ' '));
         connectWindow.dispose();
         windowChat.setVisible(true);
     }
@@ -51,11 +48,9 @@ public class GUI implements CtrlToGUI {
         System.out.println("GUI : actionDisconnect");
         controller.performDisconnect();
     }
-    ///////////////
 
-    ListModel getListModel() {
-        return controller.getListModel() ; 
+    UserList getListModel() {
+        return controller.getListModel();
     }
 
-    
 }

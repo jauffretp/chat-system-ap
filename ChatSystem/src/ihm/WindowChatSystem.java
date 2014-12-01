@@ -21,7 +21,7 @@ public class WindowChatSystem extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPaneTextField = new javax.swing.JScrollPane();
+        jScrollPaneList = new javax.swing.JScrollPane();
         jListUserList = new javax.swing.JList();
         jScrollPaneLog = new javax.swing.JScrollPane();
         zoneLog = new javax.swing.JTextArea();
@@ -36,8 +36,9 @@ public class WindowChatSystem extends javax.swing.JFrame {
         jButtonQuit = new javax.swing.JButton();
         jButtonClearLog = new javax.swing.JButton();
         jLabelSelectUsers = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPaneAckLog = new javax.swing.JScrollPane();
         zoneAck = new javax.swing.JTextArea();
+        acknowledgmentLabel = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuMenu = new javax.swing.JMenu();
         jMenuItemQuit = new javax.swing.JMenuItem();
@@ -48,6 +49,7 @@ public class WindowChatSystem extends javax.swing.JFrame {
         setTitle("ChatSystem v0.1");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFocusCycleRoot(false);
+        setName("mainFrame"); // NOI18N
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -56,7 +58,7 @@ public class WindowChatSystem extends javax.swing.JFrame {
         });
 
         jListUserList.setModel(gui.getListModel());
-        jScrollPaneTextField.setViewportView(jListUserList);
+        jScrollPaneList.setViewportView(jListUserList);
 
         zoneLog.setEditable(false);
         zoneLog.setColumns(20);
@@ -74,7 +76,7 @@ public class WindowChatSystem extends javax.swing.JFrame {
         jPanelSendFile.setLayout(jPanelSendFileLayout);
         jPanelSendFileLayout.setHorizontalGroup(
             jPanelSendFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jFileChooser, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+            .addComponent(jFileChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanelSendFileLayout.setVerticalGroup(
             jPanelSendFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,10 +116,10 @@ public class WindowChatSystem extends javax.swing.JFrame {
             jPanelSendMessageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSendMessageLayout.createSequentialGroup()
                 .addGroup(jPanelSendMessageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPaneEditor)
                     .addComponent(jButtonClearTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonSend, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCheckBoxEnterToSend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jCheckBoxEnterToSend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanelSendMessageLayout.setVerticalGroup(
@@ -151,7 +153,9 @@ public class WindowChatSystem extends javax.swing.JFrame {
         zoneAck.setEditable(false);
         zoneAck.setColumns(20);
         zoneAck.setRows(5);
-        jScrollPane2.setViewportView(zoneAck);
+        jScrollPaneAckLog.setViewportView(zoneAck);
+
+        acknowledgmentLabel.setText("Acknowledgments : ");
 
         jMenuMenu.setText("Menu");
 
@@ -192,44 +196,54 @@ public class WindowChatSystem extends javax.swing.JFrame {
                         .addComponent(jPanelSendFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanelSendMessage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonClearLog, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(jLabelSelectUsers, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)))
-                .addContainerGap(111, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPaneList, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jScrollPaneAckLog, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                        .addComponent(jLabelSelectUsers, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
+                                    .addComponent(jButtonClearLog, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addComponent(acknowledgmentLabel)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonClearLog, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(13, 13, 13)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10))
+                        .addComponent(acknowledgmentLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPaneAckLog, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPaneLog, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanelSendFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanelSendMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
                         .addComponent(jLabelSelectUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPaneTextField)
-                        .addContainerGap())))
+                        .addComponent(jScrollPaneList, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanelSendFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanelSendMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -251,14 +265,14 @@ public class WindowChatSystem extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemInfoActionPerformed
 
     private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed
-        Object[] users ; 
+        Object[] users;
         users = jListUserList.getSelectedValues();
         if (users.length == 0) {
             JOptionPane.showMessageDialog(null, "Please select an user", "ChatSystem  : Sending", JOptionPane.INFORMATION_MESSAGE);
-        } else {        
+        } else {
             gui.sendButtonPushed(users, jEditorPaneMessage.getText());
             jEditorPaneMessage.setText("");
-         }
+        }
     }//GEN-LAST:event_jButtonSendActionPerformed
 
     private void jButtonClearTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearTextFieldActionPerformed
@@ -273,22 +287,23 @@ public class WindowChatSystem extends javax.swing.JFrame {
     private void jEditorPaneMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jEditorPaneMessageKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER && jCheckBoxEnterToSend.isSelected()) {
             jEditorPaneMessage.setText(jEditorPaneMessage.getText().replace('\n', ' '));
-            jButtonSendActionPerformed(null) ; 
+            jButtonSendActionPerformed(null);
         }
     }//GEN-LAST:event_jEditorPaneMessageKeyPressed
 
     void setLog(String text) {
-        zoneLog.append(text +"\n");
+        zoneLog.append(text + "\n");
         zoneLog.setCaretPosition(zoneLog.getDocument().getLength());
     }
-    
+
     void setAckLog(String text) {
-        zoneAck.append(text +"\n");
+        zoneAck.append(text + "\n");
         zoneAck.setCaretPosition(zoneAck.getDocument().getLength());
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel acknowledgmentLabel;
     private javax.swing.JButton jButtonClearLog;
     private javax.swing.JButton jButtonClearTextField;
     private javax.swing.JButton jButtonQuit;
@@ -305,10 +320,10 @@ public class WindowChatSystem extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuQuestion;
     private javax.swing.JPanel jPanelSendFile;
     private javax.swing.JPanel jPanelSendMessage;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPaneAckLog;
     private javax.swing.JScrollPane jScrollPaneEditor;
+    private javax.swing.JScrollPane jScrollPaneList;
     private javax.swing.JScrollPane jScrollPaneLog;
-    private javax.swing.JScrollPane jScrollPaneTextField;
     private javax.swing.JTextArea zoneAck;
     private javax.swing.JTextArea zoneLog;
     // End of variables declaration//GEN-END:variables

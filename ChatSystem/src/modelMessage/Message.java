@@ -9,11 +9,9 @@ public interface Message {
     public static final int GOODBYE = 4;
     public static final int UNKNOWN = 5;
 
-    public int typeMessage(Object obj);
-
-    public void initMessage(String type, String userName, String messageData, int messageNumber);
-
-    public void initMessage(Object obj);
+    public int getIntType() ; 
+    
+    public String getType();
     
     public int getMessageNumber();
 
@@ -21,5 +19,4 @@ public interface Message {
 
     public String getUserName();
 
-    public String getType();
 }

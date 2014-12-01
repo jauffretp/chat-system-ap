@@ -1,23 +1,16 @@
 package network;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import javax.swing.JOptionPane;
 
 import controller.Controller;
-import javax.swing.JOptionPane;
 import modelMessage.Message;
-import modelMessage.MessageFactory.MessageFormat;
-import static modelMessage.MessageFactory.getMessageObject;
+import modelMessage.MessageFactory;
+import modelMessage.MessageFormat;
 
 
 public class NI implements CtrlToNI {
@@ -29,68 +22,72 @@ public class NI implements CtrlToNI {
     
     private ArrayList<TCPSender> tcpSenderArray;
     private ArrayList<TCPReceiver> tcpReceiverArray;
-    private TCPSender tcpSender;
+    private TCPServer tcpServer ;
     private UDPSender udpSender;
     
     private final UDPReceiver udpReceiver;
     private Controller controller;
-    private MessageFormat typeMessage ; 
+    private MessageFactory messageFactory ;  
+    private Message message ;  
 
     public NI(Controller controller, MessageFormat typeMessage) {
         
         this.controller = controller;
-        this.typeMessage = typeMessage ; 
+        this.messageFactory = MessageFactory.getFactory(typeMessage) ;
         
         this.tcpSenderArray = new ArrayList();
         this.tcpReceiverArray = new ArrayList();
-        this.tcpSender = new TCPSender();
+        this.tcpServer = new TCPServer();
                 
         try {
-            this.udpSender = new UDPSender(port, destPort);
+            this.udpSender = new UDPSender(port, destPort, messageFactory.returnEncoding());
         } catch (SocketException ex) {
-            System.out.println("Error creating udpSender");
-            JOptionPane.showMessageDialog(null, "UDP Error : The port " + port + " is already in use", "Chatsystem : Error", JOptionPane.ERROR_MESSAGE);
+            System.err.println("NI : Error creating udpSender");
+            JOptionPane.showMessageDialog(null, "(NI) UDP Error : The port " + port + " is already in use", "Chatsystem : Error", JOptionPane.ERROR_MESSAGE);
             System.exit(5) ; 
         }
         this.udpReceiver = new UDPReceiver(udpSender.getDs(), this);
+        startUDPReceiver() ; 
     }
 
+    private void startUDPReceiver() {
+        this.udpReceiver.start();
+    }
+    
+    
     ////////////////////
     // Sending side//
     ///////////////////
     @Override
     public void sendHello(String nickname) {
-        Message message = getMessageObject(typeMessage) ; 
-        message.initMessage("hello", nickname, "", -1);
-        System.out.println("Message sent : " + message.toString());
+        message = messageFactory.createMessageFromValues("hello", nickname, "", -1);
+        System.out.println("NI/SendHello -> Message to be sent : " + message.toString()+ " to " + adrBroadcast);
         try {
             udpSender.sendMessage(InetAddress.getByName(adrBroadcast), message);
         } catch (UnknownHostException ex) {
-            System.out.println("Error sending message : Unknown host");
+            System.err.println("NI : Error sending Hello message (unknown host)");
         }
     }
 
     @Override
     public void sendHelloAck(String local_username, String ip) {
-        Message message = getMessageObject(typeMessage) ; 
-        message.initMessage("helloAck", local_username, "", -1); 
-        System.out.println("Message sent : " + message.toString());
-        
+       message = messageFactory.createMessageFromValues("helloAck", local_username, "", -1); 
+        System.out.println("NI/SendHelloAck -> Message to be sent : " + message.toString() + " to " + ip ); 
         try {
             udpSender.sendMessage(InetAddress.getByName(ip), message);
         } catch (UnknownHostException ex) {
-            System.out.println("Error sending message : Unknown host");
+            System.err.println("NI : Error sending Hello Ack message (unknown host)");
         }
     }
 
     @Override
     public void sendGoodbye() {
-        Message message = getMessageObject(typeMessage) ;
-        message.initMessage("goodBye", " ", " ", -1);
+        message = messageFactory.createMessageFromValues("goodBye", " ", " ", -1);
+        System.out.println("NI/sendGoodBye -> Message to be sent : " + message.toString()+ " to " + adrBroadcast);
         try {
-            udpSender.sendMessage(InetAddress.getByName("255.255.255.255"), message);
+            udpSender.sendMessage(InetAddress.getByName(adrBroadcast), message);
         } catch (UnknownHostException ex) {
-            System.out.println("Error sending message : Unknown host");
+            System.err.println("NI : Error sending Goodbye message (unknown host)");
         }
 
     }
@@ -98,33 +95,31 @@ public class NI implements CtrlToNI {
     @Override
     public void sendMessage(String username, String ip, String txtMessage, int messageNumber) {
         System.out.println("NI : Ready to send \"" + txtMessage + "\" to " + username + " @" + ip);
-        Message message = getMessageObject(typeMessage) ;
-        message.initMessage("message", username, txtMessage, messageNumber);
-        System.out.println("Message sent : " + message.toString());
+        message = messageFactory.createMessageFromValues("message", username, txtMessage, messageNumber);
+        System.out.println("NI/sendMessage -> Message sent : " + message.toString() + " to " + ip);
         try {
             udpSender.sendMessage(InetAddress.getByName(ip), message);
         } catch (UnknownHostException ex) {
-            System.out.println("Error sending message to " + ip + " : Unknown host");
+            System.err.println("NI : Error sending message to " + ip + " (unknown host)");
         }
 
     }
 
     @Override
     public void sendMessageAck(String ip, int messageNumber) {
-        System.out.println("NI : Ready to ack messageNumber\"" + messageNumber);
-        Message message = getMessageObject(typeMessage) ;
-        message.initMessage("messageAck", " ", " ", messageNumber);
-        System.out.println("Message sent : " + message.toString());
+        System.out.println("NI : Ready to ack messageNumber \"" + messageNumber + "\"");
+        message = messageFactory.createMessageFromValues("messageAck", " ", " ", messageNumber);
+        System.out.println("NI/sendMessageAck -> Message sent : " + message.toString()+ " to " + ip);
         try {
             udpSender.sendMessage(InetAddress.getByName(ip), message);
         } catch (UnknownHostException ex) {
-            System.out.println("Error sending messageAck to " + ip + " : Unknown host");
+            System.err.println("NI : Error sending messageAck to " + ip + " (unknown host)");
         }
     }
 
     @Override
-    public void sendFileTo(File file, String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void sendFileTo(String filePath, String username) {
+        System.err.println("(not implemented yet) NI : Ready to send to" + username);
     }
 
     ////////////////////
@@ -132,45 +127,52 @@ public class NI implements CtrlToNI {
     ///////////////////   
     public void handlePacketReceived(Object packet) {
         if (packet instanceof DatagramPacket) {
+            System.out.println("NI/HandlePacket : DatagramPacket received");
                 DatagramPacket dp = (DatagramPacket) packet;
-
-                Message messageReceived = getMessageObject(typeMessage) ;
-                //messageReceived.initMessage(new JSONObject(new String(dp.getData(), "UTF-8")));
-                messageReceived.initMessage(packet);
                 String ip = dp.getAddress().getHostAddress();
-
-                String messageData = (String) messageReceived.getMessageData();
-                int messageNumber = (int) messageReceived.getMessageNumber();
-                String nickname = (String) messageReceived.getUserName(); 
                 
-                String type = (String) messageReceived.getType();
+                message = messageFactory.createMessageFromNIObject(packet) ;
+                
+                String type = (String) message.getType();
+                String messageData = (String) message.getMessageData();       
+                String nickname = (String) message.getUserName(); 
+                int messageNumber = (int) message.getMessageNumber();
+                
 
                 if (type.equals("message")) {
-                    String distantnickname = controller.getUser(ip).getNickname();
-                    System.out.println("NI : Received packet type is message");
-                    System.out.println("NI : Message received from " + distantnickname);
+                    System.out.println("NI/HandlePacket : Received packet type is message and "
+                            + " is from " + nickname);
                     processMessage(ip, messageData);
                     sendMessageAck(ip, messageNumber);
-                } else if (type.equals("messageAck")) {
+                } 
+                
+                else if (type.equals("messageAck")) {
                     System.out.println("NI : Received packet type is messageAck");
                     System.out.println("Ack number is : " + messageNumber);
                     processMessageAck(messageNumber);
-                } else if (type.equals("hello")) {
-                    System.out.println("NI : Received packet type is hello");
+                } 
+                
+                else if (type.equals("hello")) {
+                    System.out.println("NI/HandlePacket : Received packet type is hello");
                     processHello(nickname, ip);
-                } else if (type.equals("helloAck")) {
-                    System.out.println("NI : Received packet type is helloAck");
+                } 
+                
+                else if (type.equals("helloAck")) {
+                    System.out.println("NI/HandlePacket : Received packet type is helloAck");
                     processHelloAck(nickname, dp.getAddress().getHostAddress());
-                } else if (type.equals("goodBye")) {
-                    System.out.println("NI : Received packet type is goodBye"); 
+                } 
+                
+                else if (type.equals("goodBye")) {
+                    System.out.println("NI/HandlePacket : Received packet type is goodBye"); 
                     processGoodBye(ip);
-                } else {
-                    System.out.println("NI : Error with the message (don't recognize type)");
+                } 
+                
+                else {
+                    System.err.println("NI/HandlePacket : Error with the message (don't recognize Message type)");
                 }
             
-        } else {
-            System.out.println("NI : Packet type received not recognized");
-        }
+        } else System.err.println("NI/HandlePacket : Packet type received not recognized");
+        
     }
 
     @Override

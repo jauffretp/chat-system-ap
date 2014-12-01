@@ -16,7 +16,6 @@ class UDPReceiver extends Thread {
         this.ds = ds;
         this.active = true;
         this.ni = ni;
-        this.start();
     }
 
     @Override
@@ -24,20 +23,18 @@ class UDPReceiver extends Thread {
         while (isActive()) {
             try {
                 DatagramPacket dp = new DatagramPacket(new byte[size], size);
-                System.out.println("ready to receive");
+                System.out.println("UDPReveiver : Ready to receive");
                 ds.receive(dp);
-                System.out.println("Dp received!");
-
+                System.out.println("UDPReveiver : Packet received : " + dp);
                 ni.handlePacketReceived(dp);
-
             } catch (IOException ex) {
                 if (isActive()) {
-                    System.out.println("Error reading from the input file " + ex.getMessage());
+                    System.out.println("UDPReveiver : Error reading from the input file " + ex.getMessage());
                 }
             }
         }
         ds.close();
-        System.out.println("closed UDPReceiver");
+        System.out.println("UDPReveiver : closed ");
     }
 
     /**

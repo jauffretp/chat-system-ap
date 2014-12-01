@@ -267,6 +267,7 @@ public class WindowChatSystem extends javax.swing.JFrame {
     void setLog(String text) {
         zoneLog.setText(zoneLog.getText() + '\n' + text);
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonClearLog;

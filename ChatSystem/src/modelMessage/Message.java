@@ -11,9 +11,11 @@ public interface Message {
 
     public int typeMessage(Object obj);
 
-    public void initMessage(String type, String userName, String messageData, String messageNumber);
+    public void initMessage(String type, String userName, String messageData, int messageNumber);
 
     public void initMessage(Object obj);
+    
+    public int getMessageNumber();
 
     public String getMessageData();
 

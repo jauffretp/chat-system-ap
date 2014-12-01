@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import controller.Controller;
+import javax.swing.JOptionPane;
 import modelMessage.Message;
 import modelMessage.MessageFactory.MessageFormat;
 import static modelMessage.MessageFactory.getMessageObject;
@@ -24,6 +25,7 @@ public class NI implements CtrlToNI {
     private final int port = 1337;
     private final int destPort = 1337;
     private final String adrBroadcast = "255.255.255.255"  ; 
+     
     
     private ArrayList<TCPSender> tcpSenderArray;
     private ArrayList<TCPReceiver> tcpReceiverArray;
@@ -47,6 +49,8 @@ public class NI implements CtrlToNI {
             this.udpSender = new UDPSender(port, destPort);
         } catch (SocketException ex) {
             System.out.println("Error creating udpSender");
+            JOptionPane.showMessageDialog(null, "UDP Error : The port " + port + " is already in use", "Chatsystem : Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(5) ; 
         }
         this.udpReceiver = new UDPReceiver(udpSender.getDs(), this);
     }
@@ -57,7 +61,7 @@ public class NI implements CtrlToNI {
     @Override
     public void sendHello(String nickname) {
         Message message = getMessageObject(typeMessage) ; 
-        message.initMessage("hello", nickname, "", "1");
+        message.initMessage("hello", nickname, "", -1);
         System.out.println("Message sent : " + message.toString());
         try {
             udpSender.sendMessage(InetAddress.getByName(adrBroadcast), message);
@@ -69,7 +73,7 @@ public class NI implements CtrlToNI {
     @Override
     public void sendHelloAck(String local_username, String ip) {
         Message message = getMessageObject(typeMessage) ; 
-        message.initMessage("helloAck", local_username, "", "1");
+        message.initMessage("helloAck", local_username, "", -1); 
         System.out.println("Message sent : " + message.toString());
         
         try {
@@ -82,8 +86,7 @@ public class NI implements CtrlToNI {
     @Override
     public void sendGoodbye() {
         Message message = getMessageObject(typeMessage) ;
-        message.initMessage("goodBye", " ", " ", " ");
-        System.out.println("NI : goodBye ");
+        message.initMessage("goodBye", " ", " ", -1);
         try {
             udpSender.sendMessage(InetAddress.getByName("255.255.255.255"), message);
         } catch (UnknownHostException ex) {
@@ -93,7 +96,7 @@ public class NI implements CtrlToNI {
     }
 
     @Override
-    public void sendMessage(String username, String ip, String txtMessage, String messageNumber) {
+    public void sendMessage(String username, String ip, String txtMessage, int messageNumber) {
         System.out.println("NI : Ready to send \"" + txtMessage + "\" to " + username + " @" + ip);
         Message message = getMessageObject(typeMessage) ;
         message.initMessage("message", username, txtMessage, messageNumber);
@@ -107,8 +110,16 @@ public class NI implements CtrlToNI {
     }
 
     @Override
-    public void sendMessageAck(String local_username, int messageNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void sendMessageAck(String ip, int messageNumber) {
+        System.out.println("NI : Ready to ack messageNumber\"" + messageNumber);
+        Message message = getMessageObject(typeMessage) ;
+        message.initMessage("messageAck", " ", " ", messageNumber);
+        System.out.println("Message sent : " + message.toString());
+        try {
+            udpSender.sendMessage(InetAddress.getByName(ip), message);
+        } catch (UnknownHostException ex) {
+            System.out.println("Error sending messageAck to " + ip + " : Unknown host");
+        }
     }
 
     @Override
@@ -130,14 +141,17 @@ public class NI implements CtrlToNI {
                 String ip = dp.getAddress().getHostAddress();
 
                 String messageData = (String) messageReceived.getMessageData();
+                int messageNumber = (int) messageReceived.getMessageNumber();
                 String nickname = (String) messageReceived.getUserName();
                 String type = (String) messageReceived.getType();
 
                 if (type.equals("message")) {
                     System.out.println("UDPReceiver : " + nickname);
                     processMessage(ip, messageData);
+                    sendMessageAck(ip, messageNumber);
                 } else if (type.equals("messageAck")) {
-                    processMessageAck(nickname);
+                    System.out.println(messageNumber);
+                    processMessageAck(messageNumber);
                 } else if (type.equals("hello")) {
                     processHello(nickname, ip);
                 } else if (type.equals("helloAck")) {
@@ -178,8 +192,8 @@ public class NI implements CtrlToNI {
     }
 
     @Override
-    public void processMessageAck(String nickname) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void processMessageAck(int messageNumber) {
+        controller.processMessageAckReceived(messageNumber);
     }
 
 }

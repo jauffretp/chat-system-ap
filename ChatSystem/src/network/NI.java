@@ -141,29 +141,31 @@ public class NI implements CtrlToNI {
 
                 String messageData = (String) messageReceived.getMessageData();
                 int messageNumber = (int) messageReceived.getMessageNumber();
-                String nickname = (String) messageReceived.getUserName();
+                String nickname = (String) messageReceived.getUserName(); 
+                
                 String type = (String) messageReceived.getType();
 
                 if (type.equals("message")) {
-                    System.out.println("NI Type = message");
-                    System.out.println("UDPReceiver : " + nickname);
+                    String distantnickname = controller.getUser(ip).getNickname();
+                    System.out.println("NI : Received packet type is message");
+                    System.out.println("NI : Message received from " + distantnickname);
                     processMessage(ip, messageData);
                     sendMessageAck(ip, messageNumber);
                 } else if (type.equals("messageAck")) {
-                    System.out.println("NI Type = messageAck");
-                    System.out.println(messageNumber);
+                    System.out.println("NI : Received packet type is messageAck");
+                    System.out.println("Ack number is : " + messageNumber);
                     processMessageAck(messageNumber);
                 } else if (type.equals("hello")) {
-                    System.out.println("NI Type = hello");
+                    System.out.println("NI : Received packet type is hello");
                     processHello(nickname, ip);
                 } else if (type.equals("helloAck")) {
-                    System.out.println("NI Type = helloAck");
+                    System.out.println("NI : Received packet type is helloAck");
                     processHelloAck(nickname, dp.getAddress().getHostAddress());
                 } else if (type.equals("goodBye")) {
-                    System.out.println("NI Type = goodBye"); 
+                    System.out.println("NI : Received packet type is goodBye"); 
                     processGoodBye(ip);
                 } else {
-                    System.out.println("UDPReceiver : Error with the message (don't recognize type)");
+                    System.out.println("NI : Error with the message (don't recognize type)");
                 }
             
         } else {

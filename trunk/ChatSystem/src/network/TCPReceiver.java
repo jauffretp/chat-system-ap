@@ -7,14 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 class TCPReceiver extends Thread {
 
     private DataInputStream in;
-    private Socket socket;
-    private int sizeMax = 10000000;
+    private final Socket socket;
+    private final int sizeMax = 10000000;
 
     TCPReceiver(Socket Socket) {
         this.socket = Socket;

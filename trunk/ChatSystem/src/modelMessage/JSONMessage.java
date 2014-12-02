@@ -1,7 +1,7 @@
 package modelMessage;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import jsonLib.JSONException;
+import jsonLib.JSONObject;
 
 public class JSONMessage extends JSONObject implements Message {
 

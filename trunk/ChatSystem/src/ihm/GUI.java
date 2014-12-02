@@ -53,4 +53,8 @@ public class GUI implements CtrlToGUI {
         return controller.getListModel();
     }
 
+    void sendFileButtonPushed(String filePath, Object[] users) {
+        controller.performFile(filePath,users);
+    }
+
 }

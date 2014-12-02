@@ -140,8 +140,7 @@ public class NI implements CtrlToNI {
                 
 
                 if (type.equals("message")) {
-                    System.out.println("NI/HandlePacket : Received packet type is message and "
-                            + " is from " + nickname);
+                    System.out.println("NI/HandlePacket :  Received packet type is message");
                     processMessage(ip, messageData);
                     sendMessageAck(ip, messageNumber);
                 } 

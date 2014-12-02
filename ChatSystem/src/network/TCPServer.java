@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 class TCPServer extends Thread {
     
     
-    private ServerSocket ServerSocket ;
+    private ServerSocket serverSocket ;
     private int SOCKET_PORT = 1337;
     private volatile boolean active;
 
@@ -23,7 +23,7 @@ class TCPServer extends Thread {
     public TCPServer() {
         try {
             System.out.println("TCPServer : Creating server socket on port " + SOCKET_PORT);
-            ServerSocket = new ServerSocket(SOCKET_PORT);
+            serverSocket = new ServerSocket(SOCKET_PORT);
             this.active = true;
         } catch (IOException ex) {
             System.out.println("TCPServer : Error creating the server socket, port might be already in use");
@@ -35,7 +35,7 @@ class TCPServer extends Thread {
         while(isActive()){
             System.out.println("TCP Server : Waiting for a TCP request");
             try {
-                TCPReceiver TCPReceiver = new TCPReceiver(ServerSocket.accept());
+                TCPReceiver TCPReceiver = new TCPReceiver(serverSocket.accept());
                 TCPReceiver.start();
             } catch (IOException ex) {
                 System.out.println("TCP Server : Error accepting the connection");

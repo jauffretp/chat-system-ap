@@ -52,6 +52,16 @@ public class Controller {
         }
     }
 
+    public void performFile(String filePath, Object[] users) {
+        System.out.println("Controller : Send File to users selected");
+        for (Object userObj : users) {
+            String remoteUser = userList.getUsername(userObj);
+            String remoteIp = userList.getIp(userObj);
+            gui.setTextLog("You are sending file : " + filePath + " to " + remoteUser);
+            ni.sendFileTo(filePath,remoteIp);
+        }
+    }
+
     // receiving side /////////////////
     public void processHelloReceived(String username, String ip) {
         System.out.println("Controller : HelloReceived from " + username + "@" + ip);
@@ -91,5 +101,4 @@ public class Controller {
         System.out.println("Controller : Ack n° " + messageNumber + " received");
         gui.setAckLog("[ACK] Message " + messageNumber);
     }
-
 }

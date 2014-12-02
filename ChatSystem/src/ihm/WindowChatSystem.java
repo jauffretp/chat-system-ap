@@ -1,6 +1,7 @@
 package ihm;
 
 import java.awt.event.KeyEvent;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class WindowChatSystem extends javax.swing.JFrame {
@@ -71,6 +72,11 @@ public class WindowChatSystem extends javax.swing.JFrame {
         jPanelSendFile.setBorder(javax.swing.BorderFactory.createTitledBorder("Send a file"));
 
         jFileChooser.setAutoscrolls(true);
+        jFileChooser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFileChooserActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelSendFileLayout = new javax.swing.GroupLayout(jPanelSendFile);
         jPanelSendFile.setLayout(jPanelSendFileLayout);
@@ -126,7 +132,7 @@ public class WindowChatSystem extends javax.swing.JFrame {
             jPanelSendMessageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSendMessageLayout.createSequentialGroup()
                 .addComponent(jScrollPaneEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jCheckBoxEnterToSend)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSend, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -291,6 +297,22 @@ public class WindowChatSystem extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jEditorPaneMessageKeyPressed
 
+    private void jFileChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooserActionPerformed
+
+
+        if (evt.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
+            Object[] users;
+            users = jListUserList.getSelectedValues();
+            String filePath = jFileChooser.getSelectedFile().getAbsolutePath();
+            if (users.length == 0) {
+                JOptionPane.showMessageDialog(null, "Please select users to send your file", "ChatSystem  : Sending", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                
+                gui.sendFileButtonPushed(filePath,users);
+            }
+        }
+    }//GEN-LAST:event_jFileChooserActionPerformed
+
     void setLog(String text) {
         zoneLog.append(text + "\n");
         zoneLog.setCaretPosition(zoneLog.getDocument().getLength());
@@ -300,8 +322,6 @@ public class WindowChatSystem extends javax.swing.JFrame {
         zoneAck.append(text + "\n");
         zoneAck.setCaretPosition(zoneAck.getDocument().getLength());
     }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel acknowledgmentLabel;
     private javax.swing.JButton jButtonClearLog;
@@ -327,5 +347,4 @@ public class WindowChatSystem extends javax.swing.JFrame {
     private javax.swing.JTextArea zoneAck;
     private javax.swing.JTextArea zoneLog;
     // End of variables declaration//GEN-END:variables
-
 }

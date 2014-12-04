@@ -13,15 +13,16 @@ import java.util.logging.Logger;
 
 class TCPSender extends Thread {
 
-    private String filePath;
-    private String remoteIp;
+    private final String filePath;
+    private final InetAddress remoteIp;
     private Socket socket;
-    private int destPort;
+    private final int destPort;
     private BufferedInputStream in;
     private BufferedOutputStream out;
-    private File file;
+    private final File file;
 
-    TCPSender(String filePath, String remoteIp) {
+    TCPSender(String filePath, InetAddress remoteIp, int destPort) {
+        this.destPort = destPort;
         this.filePath = filePath;
         this.remoteIp = remoteIp;
         this.file = new File(filePath);
@@ -30,40 +31,45 @@ class TCPSender extends Thread {
 
     @Override
     public void run() {
-        System.out.println("TCPSender : TCP Sender running");
-        byte[] myArray = new byte[(int) this.file.length()];
+        
+        //creation of the socket
         try {
-            in = new BufferedInputStream(new FileInputStream(file));
-        } catch (FileNotFoundException ex) {
-            System.out.println("TCPSender : file not found");
-        }
-
-        try {
-            socket = new Socket(InetAddress.getByName(remoteIp), destPort);
+            System.out.println("TCPSender : creating socket with remoteIP = " + remoteIp.toString() + " port : " + destPort);
+            socket = new Socket(remoteIp, destPort);
         } catch (IOException ex) {
             System.out.println("TCPSender : Creation of the sending socket failed");
         }
 
+        
+        //sending of the file
+        
+        //getting the bytes of the file in an Array
+        System.out.println("TCPSender : TCP Sender running");
+        byte[] myArray = new byte[(int) this.file.length()];
         try {
+            in = new BufferedInputStream(new FileInputStream(file));
             in.read(myArray);
+        } catch (FileNotFoundException ex) {
+            System.out.println("TCPSender : file not found");
         } catch (IOException ex) {
             System.out.println("TCP Sender : IO Exception while getting the bytes from the file");
         }
 
+        //sending the byte array through the socket
         try {
             out = new BufferedOutputStream(socket.getOutputStream());
-        } catch (IOException ex) {
-            System.out.println("TCP Sender : IO Exception while getting the InputStream from the socket");
-        }
-        
-        try {
             out.write(myArray);
         } catch (IOException ex) {
-            System.out.println("TCP Sender : IO Exception while writing the array in the socket");
+            System.out.println("TCP Sender : IO Exception while sending the bytes through the socket");
         }
-        
-        
-        
+       
+        //closing the stream so the receiver knows the file is finished
+        try {
+            out.close();
+        } catch (IOException ex) {
+            System.out.println("IO Exception while closing the stream");
+          }
+        System.out.println("TCP Sender : File : " + filePath + " succesfully sent");
     }
 
 }

@@ -1,5 +1,7 @@
 package network;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -9,8 +11,9 @@ import java.io.IOException;
 import java.net.Socket;
 
 class TCPReceiver extends Thread {
-
-    private DataInputStream in;
+    private BufferedOutputStream out;
+    private BufferedInputStream in;
+    private File receivedFile = new File("receivefile.txt");
     private final Socket socket;
     private final int sizeMax = 10000000;
 
@@ -21,22 +24,15 @@ class TCPReceiver extends Thread {
     @Override
     public void run() {
         byte[] mybytearray = new byte[sizeMax];
-        int numberofBytes;
-        File receivedFile;
-        DataOutputStream out;
-        
         try {
-            this.in = new DataInputStream(socket.getInputStream());
-            numberofBytes = in.read(mybytearray);
+            this.in = new BufferedInputStream(socket.getInputStream());
+            in.read(mybytearray);
         } catch (IOException ex) {
             System.out.println("TCPReceiver : IOException with read");
         }    
-        
-        
-        receivedFile = new File("fichier1");
-        
+                
         try {
-            out = new DataOutputStream(new FileOutputStream(receivedFile));
+            out = new BufferedOutputStream(new FileOutputStream(receivedFile));
             out.write(mybytearray);
         } catch (FileNotFoundException ex) {
             System.out.println("TCPReceiver : File not found");

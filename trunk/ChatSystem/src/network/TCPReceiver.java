@@ -67,6 +67,22 @@ class TCPReceiver extends Thread {
 
         System.out.println("TCPReceiver : file succesfully received ");
         
+        
+        try {
+            in.close();
+            out.close();
+        } catch (IOException ex) {
+            System.out.println("TCPReceiver : Error while closing the stream");
+         }
+        try {
+            socket.close();
+        } catch (IOException ex) {
+            System.out.println("TCPReceiver : Error while closing the socket");
+           }
+        
+        System.out.println("TCPReceiver : socket and stream succesfully closed");
+
+        
     }
 }
 

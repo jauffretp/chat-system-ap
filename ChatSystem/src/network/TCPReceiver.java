@@ -11,11 +11,13 @@ import java.io.IOException;
 import java.net.Socket;
 
 class TCPReceiver extends Thread {
+
     private BufferedOutputStream out;
     private BufferedInputStream in;
     private File receivedFile = new File("receivefile.txt");
     private final Socket socket;
     private final int sizeMax = 10000000;
+    //private final int sizeFragment = 100;
 
     TCPReceiver(Socket Socket) {
         this.socket = Socket;
@@ -23,24 +25,27 @@ class TCPReceiver extends Thread {
 
     @Override
     public void run() {
-        byte[] mybytearray = new byte[sizeMax];
+
+        //receiving bytes from the socket
+        byte[] receivedBytes = new byte[sizeMax];
         try {
             this.in = new BufferedInputStream(socket.getInputStream());
-            in.read(mybytearray);
+            in.read(receivedBytes);
         } catch (IOException ex) {
             System.out.println("TCPReceiver : IOException with read");
-        }    
-                
+        }
+
+        //copying the bytes in the file"receivefile.txt"
         try {
             out = new BufferedOutputStream(new FileOutputStream(receivedFile));
-            out.write(mybytearray);
+            out.write(receivedBytes);
         } catch (FileNotFoundException ex) {
             System.out.println("TCPReceiver : File not found");
         } catch (IOException ex) {
             System.out.println("TCPReceiver : IOException with write");
         }
-        }
-    
-    //code non testé, en théorie ça marche, en pratique surement pas
-    // il faudra rajouter un close à la fin, et faire des tests
+
+        System.out.println("TCPReceiver : file succesfully received ");
+
     }
+}

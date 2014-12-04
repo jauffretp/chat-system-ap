@@ -33,7 +33,7 @@ public class NI implements CtrlToNI {
 
         this.tcpSenderArray = new ArrayList();
         this.tcpReceiverArray = new ArrayList();
-        this.tcpServer = new TCPServer();
+        this.tcpServer = new TCPServer(this.port);
         startTCPServer();
 
         try {
@@ -120,6 +120,8 @@ public class NI implements CtrlToNI {
     @Override
     public void sendFileTo(String filePath, String remoteIp) {
         System.out.println("NI: Sending : " + filePath + " to " + remoteIp);
+        TCPSender newSender = new TCPSender(filePath, remoteIp);
+        newSender.start();
     }
 
     ////////////////////

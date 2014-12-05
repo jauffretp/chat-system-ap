@@ -44,13 +44,13 @@ class TCPReceiver extends Thread {
                 output.write(buffer, 0, bytesRead);
                 size -= bytesRead;
             }
-            this.sleep(10000000);
+            this.sleep(10000);
             
             
             // closing the FileOutputStream handle  
             receiveResult = fileName + " received from " + socket.getInetAddress().toString() ;
-            in.close();
             clientData.close();
+            in.close();            
             output.close();
             System.out.println("TCPReceiver : Tranfert succeded ! Received : " + fileName);
             ni.processFileReceived(receiveResult) ;             

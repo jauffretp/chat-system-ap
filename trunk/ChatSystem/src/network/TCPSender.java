@@ -76,6 +76,7 @@ class TCPSender extends Thread {
 
             // sending file data 
             socketOutput.write(fileBytes, 0, fileBytes.length);
+            System.out.println("TCPSender : write ok");
             socketOutput.flush();
             System.out.println("TCPSender : File data sent");
                        

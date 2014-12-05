@@ -70,7 +70,7 @@ class TCPSender extends Thread {
             DataOutputStream dos = new DataOutputStream(socketOutput);
             dos.writeUTF(fileToSend.getName());
             dos.writeLong(fileBytes.length);
-            dos.write(fileBytes, 0, fileBytes.length);
+            //dos.write(fileBytes, 0, fileBytes.length);
             dos.flush();
             System.out.println("TCPSender : Filename and filesize sent");
 

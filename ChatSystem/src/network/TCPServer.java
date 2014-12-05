@@ -3,8 +3,6 @@ package network;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 class TCPServer extends Thread {
     
@@ -21,6 +19,7 @@ class TCPServer extends Thread {
             this.active = true;
         } catch (IOException ex) {
             System.out.println("TCPServer : Error creating the server socket, port might be already in use");
+            
         }    
     }
 

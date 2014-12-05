@@ -3,7 +3,7 @@ package modelMessage;
 import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
 
-import jsonLib.JSONException ;
+import org.json.JSONException ;
 import static modelMessage.Message.*;
  
 

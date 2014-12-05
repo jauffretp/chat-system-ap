@@ -8,8 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 class TCPSender extends Thread {
 
@@ -63,25 +61,13 @@ class TCPSender extends Thread {
             System.out.println("TCP Sender : IO Exception while sending the bytes through the socket");
         }
        
-        System.out.println("TCP Sender : File : " + filePath + " succesfully sent");
-
         //closing the stream so the receiver knows the file is finished
         try {
-            in.close();
             out.close();
         } catch (IOException ex) {
             System.out.println("IO Exception while closing the stream");
           }
-        
-        
-        try {
-            socket.close();
-        } catch (IOException ex) {
-            System.out.println("TCP Sender :Error while closing the socket");
-        }
-        
-        System.out.println("TCP Sender : Sockets and stream succesfully closed");
-
+        System.out.println("TCP Sender : File : " + filePath + " succesfully sent");
     }
 
 }

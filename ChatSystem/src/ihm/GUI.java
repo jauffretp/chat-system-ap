@@ -54,6 +54,7 @@ public class GUI implements CtrlToGUI {
     }
 
     void sendFileButtonPushed(String filePath, Object[] users) {
+        System.out.println("GUI : Send File action request");
         controller.performFile(filePath,users);
     }
 

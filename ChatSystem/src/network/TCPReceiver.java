@@ -2,6 +2,7 @@ package network;
 
 import java.io.DataInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -33,9 +34,10 @@ class TCPReceiver extends Thread {
 
             // read filename and filesize informations about file to receive
             String fileName = clientData.readUTF();
-            OutputStream output = new FileOutputStream(fileName);
             long size = clientData.readLong();
-             System.out.println("TCPReceiver : Ready to receive " + fileName + " , size : " + size);
+             
+            OutputStream output = new FileOutputStream(fileName);
+            System.out.println("TCPReceiver : Ready to receive " + fileName + " , size : " + size);
             
             // read data  
             int bytesRead;
@@ -54,10 +56,9 @@ class TCPReceiver extends Thread {
             System.out.println("TCPReceiver : Tranfert succeded ! Received : " + fileName);
             ni.processFileReceived(receiveResult) ;             
             
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        } catch (IOException ex) {
+            System.err.println("TCPReceiver : IOException " );
+        } 
         
 
     }

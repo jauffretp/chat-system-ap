@@ -44,8 +44,7 @@ class TCPReceiver extends Thread {
                 output.write(buffer, 0, bytesRead);
                 size -= bytesRead;
             }
-            this.sleep(10000);
-            
+                        
             
             // closing the FileOutputStream handle  
             receiveResult = fileName + " received from " + socket.getInetAddress().toString() ;

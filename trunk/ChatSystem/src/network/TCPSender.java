@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 class TCPSender extends Thread {
 
@@ -70,13 +68,11 @@ class TCPSender extends Thread {
             DataOutputStream dos = new DataOutputStream(socketOutput);
             dos.writeUTF(fileToSend.getName());
             dos.writeLong(fileBytes.length);
-            //dos.write(fileBytes, 0, fileBytes.length);
             dos.flush();
             System.out.println("TCPSender : Filename and filesize sent");
 
             // sending file data 
             socketOutput.write(fileBytes, 0, fileBytes.length);
-            System.out.println("TCPSender : write ok");
             socketOutput.flush();
             System.out.println("TCPSender : File data sent");
                        

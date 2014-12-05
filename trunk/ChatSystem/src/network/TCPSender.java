@@ -78,8 +78,7 @@ class TCPSender extends Thread {
             socketOutput.write(fileBytes, 0, fileBytes.length);
             socketOutput.flush();
             System.out.println("TCPSender : File data sent");
-            this.wait(1000000);
-            
+                       
             
             // closing sockets and IOs objects
             socketOutput.close();
@@ -95,10 +94,7 @@ class TCPSender extends Thread {
             System.err.println("TCPSender : IOException");
             ex.printStackTrace();
             tranferResult = "The file can't be sent (IOException)";
-        } catch (InterruptedException ex) {
-            System.out.println("TCPSender : Interrupted Exception.");
-            tranferResult = "The file has been sent (but interruption) to " + remoteIp;            
-        } finally {
+        }  finally {
             try {
                 fileInputStream.close();
             } catch (IOException ex) {

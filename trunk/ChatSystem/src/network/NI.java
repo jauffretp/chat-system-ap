@@ -8,8 +8,6 @@ import java.net.DatagramPacket;
 import javax.swing.JOptionPane;
 
 import controller.Controller;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import modelMessage.Message;
 import modelMessage.MessageFactory;
 import modelMessage.MessageFormat;
@@ -122,13 +120,14 @@ public class NI implements CtrlToNI {
     @Override
     public void sendFileTo(String filePath, String remoteIp) {
         System.out.println("NI: Sending : " + filePath + " to " + remoteIp);
-        TCPSender newSender = null;
         try {
+            TCPSender newSender;
             newSender = new TCPSender(filePath, InetAddress.getByName(remoteIp), destPort);
+            newSender.start();
         } catch (UnknownHostException ex) {
             System.out.println("NI : unknown host exception");
         }
-        newSender.start();
+        
     }
 
     ////////////////////
@@ -172,7 +171,6 @@ public class NI implements CtrlToNI {
         } else {
             System.err.println("NI/HandlePacket : Packet type received not recognized");
         }
-
     }
 
     @Override

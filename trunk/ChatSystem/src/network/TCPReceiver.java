@@ -7,16 +7,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 class TCPReceiver extends Thread {
 
     private BufferedOutputStream out;
     private BufferedInputStream in;
-    private final File receivedFile = new File("receivefile.txt");
+    private File receivedFile ;
     private final Socket socket;
-    private final int sizeMax = 100000000;
+    private final int sizeMax = 10000;
 
     TCPReceiver(Socket Socket) {
         this.socket = Socket;
@@ -66,22 +64,6 @@ class TCPReceiver extends Thread {
         }
 
         System.out.println("TCPReceiver : file succesfully received ");
-        
-        
-        try {
-            in.close();
-            out.close();
-        } catch (IOException ex) {
-            System.out.println("TCPReceiver : Error while closing the stream");
-         }
-        try {
-            socket.close();
-        } catch (IOException ex) {
-            System.out.println("TCPReceiver : Error while closing the socket");
-           }
-        
-        System.out.println("TCPReceiver : socket and stream succesfully closed");
-
         
     }
 }

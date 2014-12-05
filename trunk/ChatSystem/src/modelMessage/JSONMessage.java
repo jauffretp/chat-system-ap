@@ -1,7 +1,7 @@
 package modelMessage;
 
-import jsonLib.JSONException;
-import jsonLib.JSONObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class JSONMessage extends JSONObject implements Message {
 
@@ -50,7 +50,7 @@ public class JSONMessage extends JSONObject implements Message {
     public int getMessageNumber() {
         int returnValue = -2;
         try {
-            returnValue = Integer.parseInt(this.get("messageNumber").toString());
+            returnValue = this.getInt("messageNumber") ; 
         } catch (JSONException ex) {
             System.err.println("JSONMessage : Can't get messageNumber value");
         }

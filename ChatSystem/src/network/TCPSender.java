@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class TCPSender extends Thread {
 
@@ -76,7 +78,9 @@ class TCPSender extends Thread {
             socketOutput.write(fileBytes, 0, fileBytes.length);
             socketOutput.flush();
             System.out.println("TCPSender : File data sent");
-
+            this.wait(1000000);
+            
+            
             // closing sockets and IOs objects
             socketOutput.close();
             dos.close();
@@ -91,6 +95,9 @@ class TCPSender extends Thread {
             System.err.println("TCPSender : IOException");
             ex.printStackTrace();
             tranferResult = "The file can't be sent (IOException)";
+        } catch (InterruptedException ex) {
+            System.out.println("TCPSender : Interrupted Exception.");
+            tranferResult = "The file has been sent (but interruption) to " + remoteIp;            
         } finally {
             try {
                 fileInputStream.close();

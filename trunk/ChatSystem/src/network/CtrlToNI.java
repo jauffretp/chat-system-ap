@@ -25,4 +25,10 @@ public interface CtrlToNI {
     public void processMessage(String nickname, String dataMessage);
 
     public void processMessageAck(int messageNumber);
+    
+    public void processFileReceived(String receiveResult) ; 
+    
+    // feedback 
+     public void processTranfertResult(String result) ; 
+    
 }

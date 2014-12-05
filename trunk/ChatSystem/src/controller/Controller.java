@@ -101,4 +101,16 @@ public class Controller {
         System.out.println("Controller : Ack n° " + messageNumber + " received");
         gui.setAckLog("[ACK] Message " + messageNumber);
     }
+
+    public void fileReveivedNotification(String result) {
+        System.out.println("Controller : Inform GUI file received");
+        gui.setTextLog("[FileReceived] " + result );
+    }
+    
+    
+    // feedback 
+    public void processFileTranfertResult(String result) {
+    System.out.println("Controller : File Tranfert Result received, sending to GUI");
+    gui.setAckLog("[FileTranfert] : " + result );    
+    }
 }

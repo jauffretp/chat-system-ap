@@ -33,7 +33,7 @@ public class NI implements CtrlToNI {
 
         this.tcpSenderArray = new ArrayList();
         this.tcpReceiverArray = new ArrayList();
-        this.tcpServer = new TCPServer(this.port);
+        this.tcpServer = new TCPServer(this, this.port);
         startTCPServer();
 
         try {
@@ -122,12 +122,12 @@ public class NI implements CtrlToNI {
         System.out.println("NI: Sending : " + filePath + " to " + remoteIp);
         try {
             TCPSender newSender;
-            newSender = new TCPSender(filePath, InetAddress.getByName(remoteIp), destPort);
+            newSender = new TCPSender(this, filePath, InetAddress.getByName(remoteIp), destPort);
             newSender.start();
         } catch (UnknownHostException ex) {
             System.out.println("NI : unknown host exception");
         }
-        
+
     }
 
     ////////////////////
@@ -197,4 +197,17 @@ public class NI implements CtrlToNI {
     public void processMessageAck(int messageNumber) {
         controller.processMessageAckReceived(messageNumber);
     }
+
+    @Override
+    public void processFileReceived(String receiveResult) {
+        controller.fileReveivedNotification(receiveResult);
+    }
+        
+    // feedback 
+    @Override
+    public void processTranfertResult(String result) {
+        controller.processFileTranfertResult(result);
+    }
+
+    
 }

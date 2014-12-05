@@ -49,9 +49,9 @@ class TCPReceiver extends Thread {
             
             // closing the FileOutputStream handle  
             receiveResult = fileName + " received from " + socket.getInetAddress().toString() ;
-            clientData.close();
-            in.close();            
             output.close();
+            clientData.close();
+            in.close();  
             System.out.println("TCPReceiver : Tranfert succeded ! Received : " + fileName);
             ni.processFileReceived(receiveResult) ;             
             

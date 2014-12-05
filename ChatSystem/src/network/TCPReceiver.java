@@ -1,70 +1,63 @@
 package network;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.DataInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 class TCPReceiver extends Thread {
 
-    private BufferedOutputStream out;
-    private BufferedInputStream in;
-    private File receivedFile ;
+    NI ni ; 
     private final Socket socket;
-    private final int sizeMax = 10000;
+    String receiveResult ; 
 
-    TCPReceiver(Socket Socket) {
+    TCPReceiver(NI ni, Socket Socket) {
+        this.ni = ni ; 
         this.socket = Socket;
+        receiveResult = "Receiving not done yet" ; 
     }
 
+    public String getReceiveResult() {
+        return receiveResult;
+    }
+   
+    
     @Override
     public void run() {
 
-        //receiving bytes from the socket
-        byte[] receivedBytes = new byte[sizeMax];
-        
         try {
-            this.in = new BufferedInputStream(socket.getInputStream());
-        } catch (IOException ex) {
-            System.out.println("TCPReceiver : IO Exception while creating the inputstream");
-        }
-        
-        
-        int numberBytesRead = 0;
-        int index = 0;
+            
+            InputStream in = socket.getInputStream();
+            DataInputStream clientData = new DataInputStream(in);
 
-        while (numberBytesRead > -1){
-            //receiving bytes from the socket
-            try {
-                System.out.println(" TCPReceiver : Index : " + index + " Number of bytes read this time : " + numberBytesRead + " space left = " + (receivedBytes.length - index) );
-                numberBytesRead = in.read(receivedBytes, index, receivedBytes.length - index);
-                index += numberBytesRead;
-                System.out.println(numberBytesRead);
-
-            } catch (IOException ex) {
-                System.out.println("TCPReceiver : IOException with read");
-
+            // read filename and filesize informations about file to receive
+            String fileName = clientData.readUTF();
+            OutputStream output = new FileOutputStream(fileName);
+            long size = clientData.readLong();
+             System.out.println("TCPReceiver : Ready to receive " + fileName + " , size : " + size);
+            
+            // read data  
+            int bytesRead;
+            byte[] buffer = new byte[1024];
+            while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
+                output.write(buffer, 0, bytesRead);
+                size -= bytesRead;
             }
-        } ;
 
-        //copying the bytes in the file"receivefile.txt"
-        try {
-            System.out.println("TCPReceiver : writing into the file");
-            out = new BufferedOutputStream(new FileOutputStream(receivedFile));
-            out.write(receivedBytes);
-            System.out.println("TCPReceiver : file written");
-
-        } catch (FileNotFoundException ex) {
-            System.out.println("TCPReceiver : File not found");
-        } catch (IOException ex) {
-            System.out.println("TCPReceiver : IOException with write");
+            // closing the FileOutputStream handle  
+            receiveResult = fileName + " received from " + socket.getInetAddress().toString() ;
+            in.close();
+            clientData.close();
+            output.close();
+            System.out.println("TCPReceiver : Tranfert succeded ! Received : " + fileName);
+            ni.processFileReceived(receiveResult) ;             
+            
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        System.out.println("TCPReceiver : file succesfully received ");
         
+
     }
 }
-

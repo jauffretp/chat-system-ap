@@ -10,9 +10,11 @@ class TCPServer extends Thread {
     private ServerSocket serverSocket ;
     private int SOCKET_PORT = 1337;
     private volatile boolean active;
+    
+    private final NI ni ; 
 
-    TCPServer(int port) {
-        this.SOCKET_PORT = port;
+    TCPServer(NI ni, int port) {
+        this.ni = ni ; 
         try {
             System.out.println("TCPServer : Creating server socket on port " + SOCKET_PORT);
             serverSocket = new ServerSocket(SOCKET_PORT);
@@ -36,7 +38,7 @@ class TCPServer extends Thread {
         while(isActive()){
             System.out.println("TCP Server : Waiting for a TCP request");
             try {
-                TCPReceiver TCPReceiver = new TCPReceiver(serverSocket.accept());
+                TCPReceiver TCPReceiver = new TCPReceiver(ni, serverSocket.accept());
                 System.out.println("TCP Server : Created a new TCP Receiver");
                 TCPReceiver.start();
             } catch (IOException ex) {

@@ -1,0 +1,11 @@
+#summary How to build your own version of the app
+
+= Links =
+
+Here you will find the JSON Librairy used for the project :
+http://www.java2s.com/Code/JarDownload/java-json/java-json.jar.zip
+
+You can checkout the code from our googlecode using SVN :
+https://chat-system-ap.googlecode.com/svn/trunk/
+
+

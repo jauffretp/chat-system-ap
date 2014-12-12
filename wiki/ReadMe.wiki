@@ -2,7 +2,7 @@
 
 = Summary =
 
-You will find how the way our chatsystem work on this page
+You will find how the way our chatsystem work on this page.
 
 = Functionnalities =
 

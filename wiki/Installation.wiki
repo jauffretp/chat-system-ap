@@ -11,7 +11,7 @@ If you want to launch the program with a terminal (in order to watch out logs) :
 java -jar ChatSystem.jar 
 }}}
 
-=== Launch the NetBeans project  ===
+=== Launch the netbeans project  ===
 You can checkout the code from our googlecode using SVN :
 https://chat-system-ap.googlecode.com/svn/trunk/
 

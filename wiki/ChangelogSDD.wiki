@@ -1,3 +1,6 @@
+#summary List of changes with the original SDD
+
+
 =Changes in regard of the SDD=
 
 During the implementation phase, we found out that we had not a detailed enough vision of our 

@@ -13,6 +13,8 @@ Code:
 svn checkout http://chat-system-ap.googlecode.com/svn/trunk/ chat-system-ap-read-only
 }}}
 
+If you are only interested in the jar file, here is the link : 
+http://chat-system-ap.googlecode.com/svn/trunk/ChatSystem.jar
 
 Here is the google drive with all the documentation:
 https://drive.google.com/folderview?id=0BwTbFUDK0EzsSm5LLVdSaHZuQmc&usp=sharing

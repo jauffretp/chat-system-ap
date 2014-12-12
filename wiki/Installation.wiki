@@ -8,4 +8,5 @@ http://www.java2s.com/Code/JarDownload/java-json/java-json.jar.zip
 You can checkout the code from our googlecode using SVN :
 https://chat-system-ap.googlecode.com/svn/trunk/
 
-
+Here is the google drive with all the documentation:
+https://drive.google.com/folderview?id=0BwTbFUDK0EzsSm5LLVdSaHZuQmc&usp=sharing

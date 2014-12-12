@@ -21,9 +21,7 @@ We also had not thought about the fact that JList were not automatically updated
 
 ==Signals==
 
-The names of the signal have slightly changed from the original conception. But globally, we managed to respect the original design, using the correct terms. And in our sequence diagram, we 
-
-had not put the use of the “façade pattern”. No components can communicate directly with the controller, only the GUI and the NI can call methods from the controller.
+The names of the signal have slightly changed from the original conception. But globally, we managed to respect the original design, using the correct terms. And in our sequence diagram, we had not put the use of the “façade pattern”. No components can communicate directly with the controller, only the GUI and the NI can call methods from the controller.
 
 ==File transfer==
 

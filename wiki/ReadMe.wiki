@@ -1,10 +1,10 @@
 #summary Basic functionnalities of the app
 
-= Introduction =
+= Summary =
 
 You will find how the way our chatsystem work on this page
 
-= Details =
+= Functionnalities =
 
 In order to connect :
 Provide your username and then click on the button "connect".

@@ -20,8 +20,8 @@ Code:
 svn checkout http://chat-system-ap.googlecode.com/svn/trunk/ chat-system-ap-read-only
 }}}
 
-=== JSON Librairy problem ? ===
-Here you will find the JSON Librairy used for the project :
+=== JSON Library problem ? ===
+Here you will find the JSON Library used for the project :
 http://www.java2s.com/Code/JarDownload/java-json/java-json.jar.zip
 Import the .jar file as a librairy into your project. 
 

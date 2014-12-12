@@ -1,4 +1,4 @@
-#summary Basic Functionnalities of the app
+#summary Basic functionnalities of the app
 
 = Introduction =
 

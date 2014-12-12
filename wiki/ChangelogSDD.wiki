@@ -17,7 +17,7 @@ We had sometimes also not very well anticipated the arguments of our functions, 
 
 ==Managing the JList==
 
-We also had not thought about the fact that jList were not automatically updated, we handled this by creating a new class inherited from the defaultModelList class that handle everything. (we could easily modify the way our User class work, it will be transparent for the controller who only uses the class UserList)
+We also had not thought about the fact that jList were not automatically updated, we handled this by creating a new class inherited from the defaultModelList class that handle everything. (we could easily modify the way our User class work, it will be transparent for the controller who only uses the class userList)
 
 ==Signals==
 

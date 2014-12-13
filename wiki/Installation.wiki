@@ -6,14 +6,21 @@ JAUFFRET Pascal & GOURRAUD Anthony - 4 IR I TD B
 
 == PSM, SRS, SDD, Report (tests & Design Patterns implementations), Javadoc ==
 Here is the google drive with all the required documents:
+
 https://drive.google.com/folderview?id=0BwTbFUDK0EzsSm5LLVdSaHZuQmc&usp=sharing
 
 You can find : 
+
 - A report , including tests and changes done from SDD to the implementations. 
+
 - Javadoc folder and javadoc zipped folder
+
 - SRS document
+
 - SDD document (PIM)
+
 - PSM class diagrams (2 reverse engeneering , both are not really complient with the reality, check the report...)
+
 - A read-me ("how to use") text file
 
 ===Ressources===
